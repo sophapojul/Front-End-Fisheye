@@ -1,6 +1,26 @@
-# Base de code du projet P6 - Parcours Front-end
+# Base de code du projet P6 - Parcours Javascript-React
 
-## Démarrer le projet
+## Table of contents
+* [General info](#general-info)
+* [Technologies](#technologies)
+* [Setup](#setup)
 
-Rien à installer ici, il suffit d'ouvrir le fichier `index.html`.
+## General info
+FishEye is a website that allows independent photographers to showcase their best work.
+
+## Technologies
+Project is created with:
+* Javascript > EcmaScript 6
+* Eslint
+* Prettier
+* Jsdoc
+* Sass
+* Vite
+
+## Setup
+To run this project, install it locally using npm:
+```
+npm install
+npm run serve
+```
 
