@@ -1,3 +1,6 @@
+import '../../css/style.scss';
+import photographerFactory   from "../factories/photographer";
+
 async function getPhotographers() {
     // Penser à remplacer par les données récupérées dans le json
     const photographers = [
@@ -41,7 +44,7 @@ async function displayData(photographers) {
 async function init() {
     // Récupère les datas des photographes
     const { photographers } = await getPhotographers();
-    displayData(photographers);
+    await displayData(photographers);
 }
 
 init();

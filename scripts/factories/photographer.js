@@ -1,4 +1,4 @@
-function photographerFactory(data) {
+export default function photographerFactory(data) {
     const { name, portrait } = data;
 
     const picture = `assets/photographers/${portrait}`;
