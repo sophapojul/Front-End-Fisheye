@@ -5,22 +5,36 @@
 
 .photographer_section {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 70px;
+  grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+  gap: 4vw;
   margin-top: 100px;
 
-  & article {
+  .photographer {
     justify-self: center;
     @include u.flex-center(column);
 
-    & h2 {
+    &_name {
       color: u.$color-secondary;
       font-size: 36px;
+      margin-top: 20px;
     }
 
-    & img {
+    &_picture {
       height: 200px;
       width: 200px;
+      border-radius: 50%;
+    }
+    &_location {
+      color: u.$color-primary;
+      font-size: 13px;
+    }
+    &_tagline {
+      color: u.$color-black;
+      font-size: 13px;
+    }
+    &_price {
+      color: u.$color-light-grey;
+      font-size: 9px;
     }
   }
 
