@@ -1,0 +1,32 @@
+@use '../utils' as u;
+
+#contact_modal {
+  display: none;
+}
+
+.modal {
+  border-radius: u.$border-radius-xs;
+  background-color: u.$color-modal-background;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 35px;
+  margin: auto;
+
+  & header {
+    justify-content: space-between;
+    width: 100%;
+
+    & img {
+      cursor: pointer;
+    }
+
+    & h2 {
+      font-size: 64px;
+      font-weight: normal;
+      text-align: center;
+    }
+  }
+}
