@@ -1,0 +1,10 @@
+@use '../base' as b;
+@use '../components' as c;
+@use "../layouts" as l;
+@use "../utils" as u;
+
+.photograph-header {
+    background-color: u.$color-photograph-header-background;
+    height: 300px;
+    margin: 0 100px;
+}

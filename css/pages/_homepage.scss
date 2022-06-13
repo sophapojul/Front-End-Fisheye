@@ -1,0 +1,42 @@
+@use '../base' as b;
+@use '../components' as c;
+@use "../layouts" as l;
+@use "../utils" as u;
+
+.photographer_section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+  gap: 4vw;
+  margin-top: 100px;
+
+  .photographer {
+    justify-self: center;
+    @include u.flex-center(column);
+
+    &_name {
+      color: u.$color-secondary;
+      font-size: 36px;
+      margin-top: 20px;
+    }
+
+    &_picture {
+      height: 200px;
+      width: 200px;
+      border-radius: 50%;
+    }
+    &_location {
+      color: u.$color-primary;
+      font-size: 13px;
+    }
+    &_tagline {
+      color: u.$color-black;
+      font-size: 13px;
+    }
+    &_price {
+      color: u.$color-light-grey;
+      font-size: 9px;
+    }
+  }
+
+}
+
