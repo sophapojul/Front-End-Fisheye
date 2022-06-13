@@ -1,5 +1,5 @@
 {
-  "name": "front-end-fisheye",
+  "name": "Front-End-Fisheye",
   "version": "1.0.0",
   "description": "## Démarrer le projet",
   "main": "index.js",
@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/sophapojul/Front-End-Fisheye/issues"
   },
-  "homepage": "https://github.com/sophapojul/Front-End-Fisheye#readme",
+  "homepage": "https://github.com/sophapojul/Front-End-Fisheye",
   "dependencies": {
     "vite": "^2.9.12"
   },
