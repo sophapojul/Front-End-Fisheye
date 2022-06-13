@@ -1,30 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="utf-8">
     <title>Fisheye - photographe </title>
 </head>
 <body>
-<header>
+<header role="banner">
     <img src="assets/images/logo.png" class="logo"/>
 </header>
-<main id="main">
+<main id="main" role="main">
     <div class="photograph-header">
         <button class="contact_button">Contactez-moi</button>
     </div>
 </main>
-<div id="contact_modal">
+<div id="contact_modal" role="dialog" aria-hidden="false">
     <div class="modal">
         <header>
             <h2>Contactez-moi</h2>
             <img id="modal_close" src="assets/icons/close.svg"/>
         </header>
-        <form>
+        <form role="form" aria-label="formulaire de contact">
             <div>
                 <label>Prénom</label>
                 <input/>
             </div>
-            <button class="contact_button">Envoyer</button>
+            <button class="contact_button" aria-label="Envoyer le formulaire de contact">Envoyer</button>
         </form>
     </div>
 </div>
