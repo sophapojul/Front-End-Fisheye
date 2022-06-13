@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Build and Deploy
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -16,24 +16,17 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install Dependencies
-        uses: npm ci
+        run: npm ci
 
       - name: Build Project
         run: npm run build
 
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
-
-    steps:
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          branch: gh-pages
-          github_token: ${{ secrets.DEPLOY_VITE }}
-          publish_dir: ./dist
+      - name: Deploy
+          uses: peaceiris/actions-gh-pages@v3
+          if: ${{ github.ref == 'refs/heads/main' }}
+          with:
+            github_token: ${{ secrets.DEPLOY_VITE }}
+            publish_dir: dist
