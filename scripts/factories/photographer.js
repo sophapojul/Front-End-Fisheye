@@ -10,10 +10,10 @@ export default function photographerFactory(data) {
     function getUserCardDOM() {
         const article = document.createElement('article');
         article.classList.add('photographer');
-        addElement(article, 'img', '', { class: 'photographer_picture', src: picture });
+        addElement(article, 'img', '', { class: 'photographer_picture', src: picture, alt: `photo représentant ${data.name}` });
         addElement(article, 'h2', `${ data.name }`, { class: 'photographer_name' });
         addElement(article, 'p', `${ data.city }, ${ data.country }`, { class: 'photographer_location' });
-        addElement(article, 'p', `${ data.tagline }`, { class: 'photographer_tagline' });
+        addElement(article, 'q', `${ data.tagline }`, { class: 'photographer_tagline' });
         addElement(article, 'p', `${ data.price }€/jour`, { class: 'photographer_price' });
         return article;
     }
