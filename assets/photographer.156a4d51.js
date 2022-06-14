@@ -1,1 +1,0 @@
-import"./style.67bc54e0.js";function o(){const t=document.getElementById("contact_modal");t.style.display="block"}function e(){const t=document.getElementById("contact_modal");t.style.display="none"}const c=document.querySelector(".contact_button");c.addEventListener("click",o);const n=document.querySelector("#modal_close");n.addEventListener("click",e);
