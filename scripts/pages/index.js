@@ -1,12 +1,6 @@
 import '../../css/style.scss';
-import photographerFactory   from "../factories/photographer";
-
-async function getPhotographers() {
-    const photographers = await fetch('data/photographers.json').then(response => response.json()).then(data => data.photographers);
-    return {
-        photographers
-    };
-}
+import {photographerFactory}  from "../factories/photographer";
+import getPhotographers from "../utils/api";
 
 async function displayData(photographers) {
     const photographersSection = document.querySelector(
@@ -20,9 +14,8 @@ async function displayData(photographers) {
     });
 }
 
-async function init() {
+( async function init() {
     const { photographers } = await getPhotographers();
     await displayData(photographers);
-}
+} )();
 
-init();

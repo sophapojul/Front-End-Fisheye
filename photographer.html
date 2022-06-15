@@ -6,28 +6,12 @@
 </head>
 <body>
 <header role="banner">
-    <img src="assets/images/logo.png" class="logo" alt="logo du site des photographes indépendants"/>
+    <a href="index.html">
+        <img src="assets/images/logo.png" class="logo" alt="logo du site des photographes indépendants"/>
+    </a>
 </header>
 <main id="main" role="main">
-    <div class="photograph-header">
-        <button class="contact_button">Contactez-moi</button>
-    </div>
 </main>
-<div id="contact_modal" role="dialog" aria-hidden="false">
-    <div class="modal">
-        <header>
-            <h2>Contactez-moi</h2>
-            <img id="modal_close" src="assets/icons/close.svg" role="button" aria-label="Fermer la fenêtre modale" alt="Croix de fermeture"/>
-        </header>
-        <form role="form" aria-label="formulaire de contact">
-            <div>
-                <label for="firstname">Prénom</label>
-                <input id="firstname" type="text" name="firstname"/>
-            </div>
-            <button type="submit" class="contact_button" aria-label="Envoyer le formulaire de contact">Envoyer</button>
-        </form>
-    </div>
-</div>
 <script type="module" src="./scripts/pages/photographer.js"></script>
 </body>
 </html>
