@@ -11,7 +11,7 @@
 
 .modal {
   border-radius: u.$border-radius-xs;
-  background-color: u.$color-modal-background;
+  background-color: u.$color-bg-light;
   width: 90%;
   height: fit-content;
   max-width: 740px;
@@ -40,6 +40,7 @@
     font-size: 4rem;
     font-weight: 400;
     color: u.$color-black;
+    margin-bottom: 2rem;
   }
   #message {
     width: 100%;

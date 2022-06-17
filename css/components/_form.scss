@@ -5,17 +5,17 @@ form {
 
   & label {
     color: u.$color-dark-label;
-    font-size: 36px;
+    font-size: u.rem(36);
   }
 
   & div {
     @extend %flex-col-100p;
-    margin-bottom: 26px;
+    margin-bottom: u.rem(26);
   }
 
   & input {
     width: 100%;
-    height: 68px;
+    height: u.rem(68);
     border: none;
     border-radius: u.$border-radius-xs;
   }

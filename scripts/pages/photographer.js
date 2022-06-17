@@ -1,7 +1,7 @@
 import '../../css/style.scss';
-import getPhotographers from "../utils/api";
-import {displayModal} from '../utils/contactForm';
-import {photographerFactory} from '../factories/photographer';
+import getPhotographers from '../utils/api';
+import { displayModal } from '../utils/contactForm';
+import photographerFactory from '../factories/photographer';
 
 const getPhotograph = (data) => {
     const url = new URL(window.location.href);
@@ -16,15 +16,15 @@ async function displayPhotographerHeader(photographer) {
     main.appendChild(userHeaderCardDOM);
 }
 function displayPhotographerModal(photographer) {
-    const photographerModalModel = photographerFactory(photographer)
+    const photographerModalModel = photographerFactory(photographer);
     const photographerModalDOM = photographerModalModel.getUserModalDOM();
     document.body.appendChild(photographerModalDOM);
 }
-( async () => {
+(async () => {
     const { photographers } = await getPhotographers();
     const photograph = getPhotograph(photographers);
     await displayPhotographerHeader(photograph);
     await displayPhotographerModal(photograph);
-    const contactBtn =document.querySelector('.photographer_contact');
+    const contactBtn = document.querySelector('.photographer_contact');
     contactBtn.addEventListener('click', displayModal);
-} )()
+})();

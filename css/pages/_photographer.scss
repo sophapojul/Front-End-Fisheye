@@ -1,40 +1,5 @@
-@use '../base' as b;
-@use '../components' as c;
-@use "../layouts" as l;
-@use "../utils" as u;
 
-.photographer_header {
-    background-color: u.$color-photograph-header-background;
-    height: 100%;
-    margin: 0 100px;
-    display: flex;
-    flex-wrap: wrap;
-    .photographer_details {
-        display: flex;
-        flex-direction: column;
-        margin: 30px;
-    }
-    .photographer_picture {
-        aspect-ratio: 1;
-        width: 200px;
-        border-radius: 50%;
-        margin: 50px;
-    }
-    .photographer_name {
-        font-size: 4rem;
-        font-weight: 400;
-        color: u.$color-secondary;
-    }
-    .photographer_location {
-        font-size: 1.5rem;
-        font-weight: 400;
-        color: u.$color-primary;
-    }
-    .photographer_tagline {
-        font-size: 1rem;
-        font-weight: 400;
-        color: u.$color-black;
-        quotes: none;
-        margin-top: 1rem;
-    }
+body {
+  width: 100vw;
+  max-width: 1440px;
 }

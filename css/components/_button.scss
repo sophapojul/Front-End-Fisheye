@@ -2,15 +2,31 @@
 
 .photographer_contact,
 .modal_submit {
-  font-size: 20px;
-  font-weight: bold;
+  font-size: u.rem(20);
+  font-weight: 700;
   color: u.$color-white;
-  margin: 2rem;
-  padding: 11px;
-  width: 170px;
-  height: 70px;
+  margin: u.rem(32);
+  padding: u.rem(11);
+  width: u.rem(170);
+  height: u.rem(70);
   border: none;
   background-color: u.$color-primary;
   border-radius: u.$border-radius-xs;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    @include u.set-bg(u.$color-bg-light);
+  }
+}
+
+.modal_close {
+  display: inline-block;
+  padding: 0;
+  height: u.rem(48);
+  width: u.rem(48);
+  border: none;
+  background-color: transparent;
+  //background: url(assets/icons/close.svg) center center no-repeat transparent;
   cursor: pointer;
 }

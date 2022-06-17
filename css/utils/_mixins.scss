@@ -1,3 +1,6 @@
+@use 'functions' as f;
+@use 'variables' as v;
+
 @mixin flex-center($direction) {
   display: flex;
   flex-direction: $direction;
@@ -5,7 +8,7 @@
   align-items: center;
 }
 
-@mixin position-absolute($top,$bottom,$left,$right) {
+@mixin position-absolute($top, $bottom, $left, $right) {
   position: absolute;
   top: $top;
   bottom: $bottom;
@@ -13,12 +16,29 @@
   right: $right;
 }
 
-@mixin pseudo-elt ($display: block, $content: '', $position: absolute, $top: 0, $bottom: 0, $left: 0, $right: 0) {
+@mixin pseudo-elt($display: block, $content: '', $position: absolute, $top: 0, $bottom: 0, $left: 0, $right: 0) {
   content: $content;
   display: $display;
   position: $position;
-    top: $top;
-    bottom: $bottom;
-    left: $left;
-    right: $right;
+  top: $top;
+  bottom: $bottom;
+  left: $left;
+  right: $right;
+}
+
+@mixin breakpoint-up($size) {
+  @media (min-width: map-get(v.$breakpoints-up, $size)) {
+    @content;
+  }
+}
+
+@mixin breakpoint-down($size) {
+  @media (max-width: map-get(v.$breakpoints-down, $size)) {
+    @content;
+  }
+}
+
+@mixin set-bg($color) {
+  background-color: $color;
+  color: f.set-text-color($color);
 }

@@ -1,6 +1,6 @@
 import '../../css/style.scss';
-import {photographerFactory}  from "../factories/photographer";
-import getPhotographers from "../utils/api";
+import photographerFactory from '../factories/photographer';
+import getPhotographers from '../utils/api';
 
 async function displayData(photographers) {
     const photographersSection = document.querySelector(
@@ -14,8 +14,7 @@ async function displayData(photographers) {
     });
 }
 
-( async function init() {
+(async function init() {
     const { photographers } = await getPhotographers();
     await displayData(photographers);
-} )();
-
+})();
