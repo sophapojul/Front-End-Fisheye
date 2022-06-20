@@ -4,6 +4,15 @@
   box-sizing: border-box;
 }
 
-img{
+img {
+  max-width: 100%;
+  height: auto;
   object-fit: cover;
+}
+
+body {
+  width: 100vw;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 100px;
 }

@@ -9,24 +9,36 @@ header {
 
   h1 {
     color: #901C1C;
+    //white-space: nowrap;
+    //overflow-wrap: normal;
     margin-right: u.rem(100);
   }
 
   .logo {
     height: u.rem(50);
-    margin-left: u.rem(100);
   }
 }
 
 .photographer_header {
   background-color: u.$color-photograph-header-bg;
-  margin: 0 u.rem(100);
-  display: flex;
-  justify-content: space-between;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   align-items: center;
-  flex-wrap: wrap;
+  place-items: center;
+  //display: flex;
+  //flex-direction: column;
+  //justify-content: space-between;
+  //align-items: center;
+  //flex-wrap: wrap;
 
+  //@include u.breakpoint-up(md) {
+  //  flex-direction: row;
+  /*}
+
+  */
   & > * {
+    justify-items: center;
     //flex-shrink: 0;
   }
 
@@ -38,6 +50,7 @@ header {
     & > * {
       flex-shrink: 0;
     }
+
     .photographer_name {
       font-size: u.rem(64);
       font-weight: 400;

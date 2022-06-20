@@ -1,0 +1,46 @@
+@use '../utils' as u;
+
+.photographer_media {
+  width: 100%;
+  margin-top: u.rem(100);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-rows: minmax( 350px, 1fr );
+  place-items: center;
+  grid-column-gap: u.rem(95);
+  grid-row-gap: u.rem(20);
+
+  .product {
+    width: 350px;
+    height: auto;
+
+    &-video,
+    &-img {
+      width: 100%;
+      height: 300px;
+    }
+
+    &-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: u.rem(8) 0;
+      color: u.$color-primary;
+    }
+
+    &-title {
+      font-size: u.rem(24);
+      //font-weight: 400;
+    }
+
+
+    &-likes {
+      margin-inline: auto u.rem(7);
+      font-size: u.rem(24);
+    }
+
+    &-heart {
+      height: u.rem(18);
+    }
+  }
+}

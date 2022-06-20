@@ -6,7 +6,7 @@
  * @param {object} attributes - an object containing the attributes to be added to the element.
  * @returns {HTMLElement} The element that was created.
  */
-function addElement(parent, tag, text, attributes) {
+export function addElement(parent, tag, text, attributes) {
     /** @const {HTMLElement} el */
     const el = document.createElement(tag);
     el.innerHTML = text;
@@ -180,5 +180,54 @@ export default function photographerFactory(data) {
         return contactModal;
     }
 
-    return { getUserCardDOM, getUserHeaderDOM, getUserModalDOM };
+    return {
+        getUserCardDOM,
+        getUserHeaderDOM,
+        getUserModalDOM,
+    };
+}
+
+export function mediaFactory(data) {
+    const { id, photographerId, title, image, video, likes } = data;
+    const heart = `assets/images/heart.svg`;
+    const userImage = `assets/images/${photographerId}/${image}`;
+    const userVideo = `assets/images/${photographerId}/${video}`;
+    const mainSection = document.querySelector('.photographer_media');
+
+    function getUserMediaDOM() {
+        const article = addElement(mainSection, 'article', '', {
+            class: 'product',
+        });
+        const a = addElement(article, 'a', '', {
+            href: '#',
+        });
+        if (video) {
+            addElement(a, 'video', '', {
+                class: 'product-video',
+                controls: true,
+                src: userVideo,
+            });
+        } else {
+            addElement(a, 'img', '', {
+                class: 'product-img',
+                src: userImage,
+                alt: title,
+                id,
+            });
+        }
+        const footer = addElement(article, 'footer', '', {
+            class: 'product-footer',
+        });
+        addElement(footer, 'p', title, { class: 'product-title' });
+        addElement(footer, 'span', likes, { class: 'product-likes' });
+        addElement(footer, 'img', '', {
+            class: 'product-heart',
+            alt: 'likes',
+            role: 'img',
+            src: heart,
+        });
+        return article;
+    }
+
+    return { getUserMediaDOM };
 }

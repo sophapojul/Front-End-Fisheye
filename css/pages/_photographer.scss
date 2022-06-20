@@ -1,5 +1,4 @@
-
-body {
-  width: 100vw;
-  max-width: 1440px;
-}
+@use '../base' as b;
+@use '../components' as c;
+@use "../layouts" as l;
+@use "../utils" as u;
