@@ -23,16 +23,20 @@
       height: 200px;
       width: 200px;
       border-radius: 50%;
+      cursor: pointer;
     }
+
     &_location {
       color: u.$color-primary;
       font-size: 13px;
     }
+
     &_tagline {
       quotes: none;
       color: u.$color-black;
       font-size: 13px;
     }
+
     &_price {
       color: u.$color-light-grey;
       font-size: 9px;

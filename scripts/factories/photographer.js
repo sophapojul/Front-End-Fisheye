@@ -189,7 +189,7 @@ export default function photographerFactory(data) {
 
 export function mediaFactory(data) {
     const { id, photographerId, title, image, video, likes } = data;
-    const heart = `assets/images/heart.svg`;
+    const heart = `assets/icons/heart.svg`;
     const userImage = `assets/images/${photographerId}/${image}`;
     const userVideo = `assets/images/${photographerId}/${video}`;
     const mainSection = document.querySelector('.photographer_media');
@@ -198,16 +198,19 @@ export function mediaFactory(data) {
         const article = addElement(mainSection, 'article', '', {
             class: 'product',
         });
-        const a = addElement(article, 'a', '', {
-            href: '#',
-        });
         if (video) {
+            const a = addElement(article, 'a', '', {
+                href: userVideo,
+            });
             addElement(a, 'video', '', {
                 class: 'product-video',
                 controls: true,
                 src: userVideo,
             });
         } else {
+            const a = addElement(article, 'a', '', {
+                href: userImage,
+            });
             addElement(a, 'img', '', {
                 class: 'product-img',
                 src: userImage,
@@ -230,4 +233,97 @@ export function mediaFactory(data) {
     }
 
     return { getUserMediaDOM };
+}
+
+export function lightboxFactory(images) {
+    function getImageDOM(link) {
+        console.log(link);
+        const alt = link.split('/').pop().split('.')[0].split('_').join(' ');
+        const container = document.querySelector('.lightbox_container');
+        const ext = link.split('.')[1];
+        // if (link.includes('mp4')) {
+        if (ext === 'mp4') {
+            container.innerHTML = '';
+            addElement(container, 'video', '', {
+                class: 'lightbox_video',
+                controls: true,
+                src: link,
+                intrinsicsize: 'contain',
+            });
+        } else {
+            container.innerHTML = '';
+            addElement(container, 'img', '', {
+                class: 'lightbox_img',
+                src: link,
+                alt,
+            });
+        }
+    }
+
+    function getLightboxDOM() {
+        const lightbox = addElement(document.body, 'div', '', {
+            class: 'lightbox',
+            role: 'dialog',
+            'aria-hidden': 'true',
+            'aria-modal': 'false',
+            'aria-labelledby': 'contact_modal_title',
+            style: 'display: block',
+        });
+        addElement(lightbox, 'button', '', {
+            class: 'lightbox_close',
+        });
+        addElement(lightbox, 'button', '', {
+            class: 'lightbox_prev',
+        });
+        addElement(lightbox, 'button', '', {
+            class: 'lightbox_next',
+        });
+        addElement(lightbox, 'div', '', {
+            id: 'lightbox_container',
+            class: 'lightbox_container',
+        });
+
+        function closeLightbox(e) {
+            e.preventDefault();
+            lightbox.remove();
+            lightbox.removeEventListener('click', closeLightbox);
+        }
+
+        function currentIndex(e) {
+            e.preventDefault();
+            const currentImg = document.querySelector(
+                '#lightbox_container'
+            ).firstElementChild;
+            return images.findIndex(
+                (image) => image === currentImg.getAttribute('src')
+            );
+        }
+
+        function prevLightbox(e) {
+            let index = currentIndex(e);
+            if (index === 0) {
+                index = images.length;
+            }
+            getImageDOM(images[index - 1]);
+        }
+
+        function nextLightbox(e) {
+            let index = currentIndex(e);
+            if (index === images.length - 1) {
+                index = -1;
+            }
+            getImageDOM(images[index + 1]);
+        }
+
+        const close = lightbox.querySelector('.lightbox_close');
+        close.addEventListener('click', closeLightbox);
+        const prev = lightbox.querySelector('.lightbox_prev');
+        prev.addEventListener('click', prevLightbox);
+        const next = lightbox.querySelector('.lightbox_next');
+        next.addEventListener('click', nextLightbox);
+
+        return lightbox;
+    }
+
+    return { getLightboxDOM, getImageDOM };
 }
