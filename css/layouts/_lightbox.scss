@@ -13,7 +13,7 @@
 
   &_next,
   &_prev {
-    background: url("assets/icons/arrow.svg") center center / 16px 28px no-repeat;
+    background: url("/assets/icons/arrow.svg") center center / 16px 28px no-repeat;
     width: 50px;
     height: 100%;
     position: fixed;
@@ -37,7 +37,7 @@
   &_close {
     width: 42px;
     height: 42px;
-    background: url('assets/icons/close.svg') center center / 42px 42px no-repeat;
+    background: url('/assets/icons/close.svg') center center / 42px 42px no-repeat;
     position: fixed;
     top: 25px;
     right: 50px;
