@@ -5,6 +5,29 @@ const focusableEls =
 let focusable = [];
 let previouslyFocusedElement = null;
 
+const closeModalOnEscape = (e) => {
+    if (e.key === 'Escape') {
+        closeModal(e);
+    }
+};
+
+const focusInModal = (e) => {
+    e.preventDefault();
+    let index = focusable.findIndex((f) => f === modal.querySelector(':focus'));
+    if (e.shiftKey === true) {
+        index -= 1;
+    } else {
+        index += 1;
+    }
+    if (index >= focusable.length) {
+        index = 0;
+    }
+    if (index < 0) {
+        index = focusable.length - 1;
+    }
+    focusable[index].focus();
+};
+
 export function closeModal() {
     if (!modal) return;
     if (previouslyFocusedElement !== null) previouslyFocusedElement.focus();
@@ -18,6 +41,8 @@ export function closeModal() {
     modal
         .querySelector('.modal')
         .removeEventListener('click', (e) => e.stopPropagation());
+    modal.removeEventListener('keydown', focusInModal);
+    modal.removeEventListener('keydown', closeModalOnEscape);
     modal = null;
 }
 
@@ -34,29 +59,6 @@ export function displayModal() {
     modal
         .querySelector('.modal')
         .addEventListener('click', (e) => e.stopPropagation());
+    modal.addEventListener('keydown', focusInModal);
+    modal.addEventListener('keydown', closeModalOnEscape);
 }
-
-const focusInModal = (e) => {
-    e.preventDefault();
-    let index = focusable.findIndex((f) => f === modal.querySelector(':focus'));
-    if (e.shiftKey === true) {
-        index--;
-    } else {
-        index++;
-    }
-    if (index >= focusable.length) {
-        index = 0;
-    }
-    if (index < 0) {
-        index = focusable.length - 1;
-    }
-    focusable[index].focus();
-};
-window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        closeModal(e);
-    }
-    if (e.key === 'Tab' && modal) {
-        focusInModal(e);
-    }
-});

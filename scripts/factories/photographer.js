@@ -288,10 +288,17 @@ export function lightboxFactory(images) {
             class: 'lightbox_container',
         });
 
+        function closeLightboxOnEscape(e) {
+            if (e.key === 'Escape') {
+                closeLightbox(e);
+            }
+        }
+
         function closeLightbox(e) {
             e.preventDefault();
             lightbox.remove();
-            lightbox.removeEventListener('click', closeLightbox);
+            document.removeEventListener('click', closeLightbox);
+            document.removeEventListener('keydown', closeLightboxOnEscape);
         }
 
         function currentIndex(e) {
@@ -320,6 +327,7 @@ export function lightboxFactory(images) {
             getImageDOM(images[index + 1]);
         }
 
+        document.addEventListener('keydown', closeLightboxOnEscape);
         const close = lightbox.querySelector('.lightbox_close');
         close.addEventListener('click', closeLightbox);
         const prev = lightbox.querySelector('.lightbox_prev');
