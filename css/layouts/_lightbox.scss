@@ -61,12 +61,19 @@
     margin-left: 50px;
     margin-right: 50px;
 
+
     & img,
     & video {
       height: 85vh;
       animation: lightboxIn 1s;
     }
 
+  }
+
+  &_loader {
+    width: 58px;
+    height: 58px;
+    background: url("/assets/icons/loader.svg") center center / 100% 100% no-repeat;
   }
 
   //svg path {

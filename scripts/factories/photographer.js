@@ -251,11 +251,17 @@ export function lightboxFactory(images) {
             });
         } else {
             container.innerHTML = '';
-            addElement(container, 'img', '', {
-                class: 'lightbox_img',
-                src: link,
-                alt,
+            addElement(container, 'div', '', {
+                class: 'lightbox_loader',
             });
+            const image = document.createElement('img');
+            image.setAttribute('src', link);
+            image.setAttribute('alt', alt);
+            image.setAttribute('class', 'lightbox_image');
+            image.onload = function () {
+                container.innerHTML = '';
+                container.appendChild(image);
+            };
         }
     }
 
