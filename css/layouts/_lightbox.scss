@@ -57,14 +57,13 @@
   &_container {
     @include u.flex-center(row);
     min-height: 100vh;
-    width: 87vw;
+    width: 100vw;
     margin-left: 50px;
     margin-right: 50px;
 
     & img,
     & video {
-      //max-width: 100%;
-      width: 100vh;
+      height: 85vh;
       animation: lightboxIn 1s;
     }
 

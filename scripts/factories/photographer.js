@@ -248,7 +248,6 @@ export function lightboxFactory(images) {
                 class: 'lightbox_video',
                 controls: true,
                 src: link,
-                intrinsicsize: 'contain',
             });
         } else {
             container.innerHTML = '';
