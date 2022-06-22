@@ -3,7 +3,13 @@ import getPhotographers from '../utils/api';
 import { displayModal } from '../utils/contactForm';
 import photographerFactory from '../factories/photographer';
 import mediaFactory from '../factories/media';
+import {
+    sortMediaByPopularity,
+    sortMediaByTitle,
+    sortMediaByDate,
+} from '../utils/dropdownMenu';
 import lightboxFactory from '../factories/lightbox';
+import dropdownMenuFactory from '../factories/dropdowmMenu';
 import addElement from '../utils/addElement';
 
 const main = document.querySelector('main');
@@ -68,6 +74,47 @@ function displayLightbox() {
     );
 }
 
+function sortMedia(media) {
+    const selectedValue = document.querySelector(
+        '.dropdown-menu_filter-selected'
+    ).textContent;
+    switch (selectedValue) {
+        case 'Popularité':
+            return sortMediaByPopularity(media);
+        case 'Titre':
+            return sortMediaByTitle(media);
+        case 'Date':
+            return sortMediaByDate(media);
+        default:
+    }
+}
+
+async function displayDropdownMenu(media) {
+    const section = document.querySelector('.photographer_header');
+    const dropdownMenuModel = dropdownMenuFactory();
+    const dropdownMenuDOM = dropdownMenuModel.getDropdownMenuDOM();
+    section.parentNode.insertBefore(dropdownMenuDOM, section.nextSibling);
+    const selected = document.querySelector('.dropdown-menu_filter-selected');
+    const options = document.querySelectorAll('.dropdown-menu_select-option');
+    options.forEach((option) => {
+        option.addEventListener('click', () => {
+            selected.textContent = option.textContent;
+        });
+    });
+    document
+        .querySelectorAll('.dropdown-menu_select-option')
+        .forEach((option) => {
+            option.addEventListener('click', () => {
+                const sectionMedia = document.querySelector(
+                    'section.photographer_media'
+                );
+                sectionMedia.parentNode.removeChild(sectionMedia);
+                const sortedMedia = sortMedia(media);
+                displayMedia(sortedMedia);
+            });
+        });
+}
+
 (async () => {
     const { photographers } = await getPhotographers();
     const { media } = await getPhotographers();
@@ -75,6 +122,7 @@ function displayLightbox() {
     await displayPhotographerHeader(photograph);
     await displayPhotographerModal(photograph);
     await displayMedia(getMedia(media));
+    await displayDropdownMenu(getMedia(media));
     displayLightbox();
     const contactBtn = document.querySelector('.photographer_contact');
     contactBtn.addEventListener('click', displayModal);
