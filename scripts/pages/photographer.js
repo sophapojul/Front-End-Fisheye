@@ -1,11 +1,10 @@
 import '../../css/style.scss';
 import getPhotographers from '../utils/api';
 import { displayModal } from '../utils/contactForm';
-import photographerFactory, {
-    addElement,
-    mediaFactory,
-    lightboxFactory,
-} from '../factories/photographer';
+import photographerFactory from '../factories/photographer';
+import mediaFactory from '../factories/media';
+import lightboxFactory from '../factories/lightbox';
+import addElement from '../utils/addElement';
 
 const main = document.querySelector('main');
 
