@@ -10,7 +10,7 @@ import {
 } from '../utils/dropdownMenu';
 import lightboxFactory from '../factories/lightbox';
 import dropdownMenuFactory from '../factories/dropdowmMenu';
-import addElement from '../utils/addElement';
+// import addElement from '../utils/addElement';
 
 const main = document.querySelector('main');
 
@@ -25,25 +25,15 @@ const getPhotograph = (data) => {
     return data.find((el) => el.id === id);
 };
 
-/**
- * Get the media for the photographer with the id that matches the id of the photographer that is currently logged in.
- * @param {Object[]} data - The array of objects that we want to filter through.
- * @returns {Object} An array of objects that have a photographerId property that matches the id of the photographer.
- */
-const getMedia = (data) => {
-    const id = getId();
-    return data.filter((obj) => obj.photographerId === id);
-};
-
 async function displayMedia(userMedia) {
-    // const main = document.querySelector('main');
-    const mainSection = addElement(main, 'section', '', {
-        class: 'photographer_media',
-    });
+    const section = document.querySelector('.photographer_media-user');
+    // const mainSection = addElement(main, 'section', '', {
+    //     class: 'photographer_media',
+    // });
     userMedia.forEach((media) => {
         const mediaModel = mediaFactory(media);
         const mediaDOM = mediaModel.getUserMediaDOM();
-        mainSection.appendChild(mediaDOM);
+        section.appendChild(mediaDOM);
     });
 }
 
@@ -89,11 +79,22 @@ function sortMedia(media) {
     }
 }
 
+/**
+ * Get the media for the photographer with the id that matches the id of the photographer that is currently logged in.
+ * @param {Object[]} data - The array of objects that we want to filter through.
+ * @returns {Object} An array of objects that have a photographerId property that matches the id of the photographer.
+ */
+const getMedia = (data) => {
+    const id = getId();
+    return data.filter((el) => el.photographerId === id);
+    // return sortMedia(media);
+};
+
 async function displayDropdownMenu(media) {
-    const section = document.querySelector('.photographer_header');
     const dropdownMenuModel = dropdownMenuFactory();
     const dropdownMenuDOM = dropdownMenuModel.getDropdownMenuDOM();
-    section.parentNode.insertBefore(dropdownMenuDOM, section.nextSibling);
+    // section.parentNode.insertBefore(dropdownMenuDOM, section.nextSibling);
+    main.appendChild(dropdownMenuDOM);
     const selected = document.querySelector('.dropdown-menu_filter-selected');
     const options = document.querySelectorAll('.dropdown-menu_select-option');
     options.forEach((option) => {
@@ -101,14 +102,20 @@ async function displayDropdownMenu(media) {
             selected.textContent = option.textContent;
         });
     });
+    await displayMedia(sortMedia(media));
+    // !document.querySelector('.photographer_media')
+    //     ? await displayMedia(sortMedia(media))
+    //     : null;
     document
         .querySelectorAll('.dropdown-menu_select-option')
         .forEach((option) => {
             option.addEventListener('click', () => {
-                const sectionMedia = document.querySelector(
-                    'section.photographer_media'
+                const sectionMediaUser = document.querySelector(
+                    '.photographer_media-user'
                 );
-                sectionMedia.parentNode.removeChild(sectionMedia);
+                while (sectionMediaUser.firstChild) {
+                    sectionMediaUser.removeChild(sectionMediaUser.firstChild);
+                }
                 const sortedMedia = sortMedia(media);
                 displayMedia(sortedMedia);
             });
@@ -121,7 +128,7 @@ async function displayDropdownMenu(media) {
     const photograph = getPhotograph(photographers);
     await displayPhotographerHeader(photograph);
     await displayPhotographerModal(photograph);
-    await displayMedia(getMedia(media));
+    // await displayMedia(getMedia(media));
     await displayDropdownMenu(getMedia(media));
     displayLightbox();
     const contactBtn = document.querySelector('.photographer_contact');

@@ -4,8 +4,16 @@ export default function dropdownMenuFactory() {
     // const section = document.querySelector('.photographer_media');
 
     function getDropdownMenuDOM() {
-        const dropdownMenu = document.createElement('div');
-        dropdownMenu.classList.add('dropdown-menu');
+        const main = document.querySelector('#main');
+        const media = addElement(main, 'section', '', {
+            class: 'photographer_media',
+        });
+        const dropdownMenu = addElement(media, 'div', '', {
+            class: 'dropdown-menu',
+        });
+        addElement(media, 'div', '', {
+            class: 'photographer_media-user',
+        });
         addElement(dropdownMenu, 'input', '', {
             class: 'dropdown-menu_switch',
             type: 'checkbox',
@@ -48,7 +56,7 @@ export default function dropdownMenuFactory() {
         // function closeDropdownMenu() {
         //     dropdownMenu.classList.remove('dropdown-menu_open');
         // }
-        return dropdownMenu;
+        return media;
     }
 
     return { getDropdownMenuDOM };

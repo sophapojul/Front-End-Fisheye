@@ -7,6 +7,5 @@ export function sortMediaByDate(media) {
 }
 
 export function sortMediaByPopularity(media) {
-    const sorted = media.sort((a, b) => a.likes - b.likes);
-    return media.sort((a, b) => a.likes - b.likes);
+    return media.sort((a, b) => b.likes - a.likes);
 }

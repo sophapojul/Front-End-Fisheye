@@ -5,10 +5,10 @@ export default function mediaFactory(data) {
     const heart = `assets/icons/heart.svg`;
     const userImage = `assets/images/${photographerId}/${image}`;
     const userVideo = `assets/images/${photographerId}/${video}`;
-    const mainSection = document.querySelector('.photographer_media');
+    const mediaUser = document.querySelector('.photographer_media-user');
 
     function getUserMediaDOM() {
-        const article = addElement(mainSection, 'article', '', {
+        const article = addElement(mediaUser, 'article', '', {
             class: 'product',
         });
         if (video) {

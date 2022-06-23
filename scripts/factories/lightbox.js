@@ -1,13 +1,24 @@
 import addElement from '../utils/addElement';
 
+// function setAttributes(element, attributes) {
+//     Object.keys(attributes).forEach((attr) => {
+//         element.setAttribute(attr, attributes[attr]);
+//     });
+// }
+
 export default function lightboxFactory(images) {
     function getImageDOM(link) {
-        console.log(link);
-        const alt = link.split('/').pop().split('.')[0].split('_').join(' ');
+        // TODO: regex to get the image title;
+        // const alt = link.split('/').pop().split('.')[0].split('_').join(' ');
+        // const alt = link.split('/').pop().split('.')[0].replaceAll(/_/g, ' ');
+        const alt = link
+            .replace(/^.*[\\/]/, '')
+            .replace(/\.[^.]+$/, '')
+            .replaceAll(/_/g, ' ');
+        console.log('replace', alt);
         const container = document.querySelector('.lightbox_container');
-        const ext = link.split('.')[1];
-        // if (link.includes('mp4')) {
-        if (ext === 'mp4') {
+        const extension = link.split('.')[1];
+        if (extension === 'mp4') {
             container.innerHTML = '';
             addElement(container, 'video', '', {
                 class: 'lightbox_video',
@@ -23,7 +34,7 @@ export default function lightboxFactory(images) {
             image.setAttribute('src', link);
             image.setAttribute('alt', alt);
             image.setAttribute('class', 'lightbox_image');
-            image.onload = function () {
+            image.onload = () => {
                 container.innerHTML = '';
                 container.appendChild(image);
             };
@@ -31,6 +42,17 @@ export default function lightboxFactory(images) {
     }
 
     function getLightboxDOM() {
+        // const lightbox = document.createElement('div');
+        // const attributes = {
+        //     class: 'lightbox',
+        //     role: 'dialog',
+        //     'aria-hidden': 'true',
+        //     'aria-modal': 'false',
+        //     'aria-labelledby': 'contact_modal_title',
+        //     style: 'display: block',
+        // };
+        // setAttributes(lightbox, attributes);
+        // document.body.insertBefore(lightbox, document.body.lastChild);
         const lightbox = addElement(document.body, 'div', '', {
             class: 'lightbox',
             role: 'dialog',

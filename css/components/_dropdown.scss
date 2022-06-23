@@ -1,12 +1,8 @@
 @use "../utils" as u;
 
-#main {
-  position: relative;
-}
-
 .dropdown-menu {
   position: absolute;
-  top: 310px;
+  top: -90px;
   left: 95px;
   width: 170px;
   border-radius: 5px;
@@ -63,6 +59,7 @@
     top: 95%;
     left: 0;
     width: 100%;
+    z-index: 5;
     overflow: hidden;
     background-color: #901C1C;
     border-radius: 0 0 5px 5px;
