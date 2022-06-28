@@ -10,26 +10,37 @@ import {
 } from '../utils/dropdownMenu';
 import lightboxFactory from '../factories/lightbox';
 import dropdownMenuFactory from '../factories/dropdowmMenu';
-// import addElement from '../utils/addElement';
+import { likesFactory, incrementLike } from '../factories/likes';
 
 const main = document.querySelector('main');
 
+/**
+ * It gets the id from the url
+ * @returns {Number} The id of the current url
+ */
 const getId = () => {
     const url = new URL(window.location.href);
     const params = url.searchParams.get('id');
     return parseInt(params, 10);
 };
 
+/**
+ * Return the photograph object from the data array that has the same id as the id in the URL.
+ * @param {Object[]} data - the array of objects that we want to search through
+ * @returns {Object} the element that has the same id as the id that is being passed in.
+ */
 const getPhotograph = (data) => {
     const id = getId();
     return data.find((el) => el.id === id);
 };
 
+/**
+ * It takes an array of media objects, creates a media model for each one, and then appends the DOM element for each media
+ * model to the DOM
+ * @param {Object[]} userMedia - an array of media objects
+ */
 async function displayMedia(userMedia) {
     const section = document.querySelector('.photographer_media-user');
-    // const mainSection = addElement(main, 'section', '', {
-    //     class: 'photographer_media',
-    // });
     userMedia.forEach((media) => {
         const mediaModel = mediaFactory(media);
         const mediaDOM = mediaModel.getUserMediaDOM();
@@ -37,22 +48,36 @@ async function displayMedia(userMedia) {
     });
 }
 
+/**
+ * It takes a photographer object, creates a photographerFactory object, and then uses the photographerFactory object to
+ * create a userHeaderCardDOM object
+ * @param {Object} photographer - This is the photographer object that we are going to use to create the photographer header.
+ */
 async function displayPhotographerHeader(photographer) {
-    // const main = document.querySelector('main');
     const photographHeaderModel = photographerFactory(photographer);
     const userHeaderCardDOM = photographHeaderModel.getUserHeaderDOM();
     main.appendChild(userHeaderCardDOM);
 }
 
+/**
+ * It takes a photographer object, creates a photographer model, gets the photographer modal DOM from the photographer
+ * model, and appends the photographer modal DOM to the body.
+ * @param {Object} photographer - The photographer object that was clicked on.
+ */
 function displayPhotographerModal(photographer) {
     const photographerModalModel = photographerFactory(photographer);
     const photographerModalDOM = photographerModalModel.getUserModalDOM();
     document.body.appendChild(photographerModalDOM);
 }
 
+/**
+ * It takes all the links in the page, gets the unique images from them, and then adds an event listener to each link that
+ * creates a lightbox model, gets the lightbox DOM from the model, gets the image DOM from the model, and then appends the
+ * lightbox DOM to the body
+ */
 function displayLightbox() {
     const links = Array.from(document.querySelectorAll('.product a'));
-    const images = [...new Set(links.map((link) => link.getAttribute('href')))];
+    const images = [...new Set(links.map((link) => link.getAttribute('href')))]; // get unique images
     links.forEach((link) =>
         link.addEventListener('click', (e) => {
             e.preventDefault();
@@ -64,6 +89,11 @@ function displayLightbox() {
     );
 }
 
+/**
+ * It sorts the media by the selected value in the dropdown menu
+ * @param {Object[]} media - the array of media to sort
+ * @returns {Object[]} the sorted media.
+ */
 function sortMedia(media) {
     const selectedValue = document.querySelector(
         '.dropdown-menu_filter-selected'
@@ -87,13 +117,42 @@ function sortMedia(media) {
 const getMedia = (data) => {
     const id = getId();
     return data.filter((el) => el.photographerId === id);
-    // return sortMedia(media);
 };
 
+/**
+ * It takes in a data object, gets the id of the photographer, gets the media of the photographer, adds up the likes of the
+ * media, gets the price of the photographer, creates a likes model, gets the likes DOM, and appends it to the main element
+ * @param {Object} data - The data object that was passed to the function.
+ */
+function displayLikes(data) {
+    const { photographers, media } = data;
+    const { id } = getPhotograph(photographers);
+    let likes = 0;
+    getMedia(media).forEach((obj) => {
+        likes += obj.likes;
+    });
+    const { price } = photographers.find((el) => el.id === id);
+    const likesModel = likesFactory(likes, price);
+    const likesDOM = likesModel.getLikesDOM();
+    main.appendChild(likesDOM);
+    const likesCount = document.querySelector('.likes_count');
+    document.querySelectorAll('.product-heart').forEach((el) => {
+        el.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log(e);
+            incrementLike(el.previousElementSibling);
+            incrementLike(likesCount);
+        });
+    });
+}
+
+/**
+ * It displays a dropdown menu, and when an option is selected, it sorts the media and displays it
+ * @param {Object[]} media - an array of objects that contain the media information
+ */
 async function displayDropdownMenu(media) {
     const dropdownMenuModel = dropdownMenuFactory();
     const dropdownMenuDOM = dropdownMenuModel.getDropdownMenuDOM();
-    // section.parentNode.insertBefore(dropdownMenuDOM, section.nextSibling);
     main.appendChild(dropdownMenuDOM);
     const selected = document.querySelector('.dropdown-menu_filter-selected');
     const options = document.querySelectorAll('.dropdown-menu_select-option');
@@ -103,9 +162,6 @@ async function displayDropdownMenu(media) {
         });
     });
     await displayMedia(sortMedia(media));
-    // !document.querySelector('.photographer_media')
-    //     ? await displayMedia(sortMedia(media))
-    //     : null;
     document
         .querySelectorAll('.dropdown-menu_select-option')
         .forEach((option) => {
@@ -123,14 +179,13 @@ async function displayDropdownMenu(media) {
 }
 
 (async () => {
-    const { photographers } = await getPhotographers();
-    const { media } = await getPhotographers();
+    const { photographers, media } = await getPhotographers();
     const photograph = getPhotograph(photographers);
     await displayPhotographerHeader(photograph);
     await displayPhotographerModal(photograph);
-    // await displayMedia(getMedia(media));
     await displayDropdownMenu(getMedia(media));
     displayLightbox();
+    displayLikes({ photographers, media });
     const contactBtn = document.querySelector('.photographer_contact');
     contactBtn.addEventListener('click', displayModal);
 })();

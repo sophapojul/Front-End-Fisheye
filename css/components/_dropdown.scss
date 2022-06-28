@@ -1,13 +1,21 @@
 @use "../utils" as u;
 
+
+.photographer_media_heading {
+  display: inline-block;
+  font-weight: 700;
+  margin-top: 20px;
+}
+
 .dropdown-menu {
   position: absolute;
-  top: -90px;
+  top: 10px;
   left: 95px;
   width: 170px;
   border-radius: 5px;
   background-color: u.$color-primary;
   font-weight: 700;
+
 
   &_switch:checked + &_options-filter &_select {
     transform: scaleY(1);

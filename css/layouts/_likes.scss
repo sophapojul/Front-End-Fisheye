@@ -1,0 +1,29 @@
+@use '../utils' as u;
+
+.likes {
+  position: sticky;
+  left: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: u.rem(8);
+  margin-right: -4%;
+  bottom: 0;
+  background-color: u.$color-secondary;
+  width: 25vw;
+  padding: 20px 30px;
+  border-radius: 5px;
+  font-size: u.rem(24);
+  font-weight: 500;
+
+  &_heart {
+    width: 18px;
+    height: 18px;
+    margin-left: 8px;
+    margin-right: auto;
+
+    & path {
+      fill: u.$color-primary;
+    }
+  }
+}
