@@ -12,9 +12,8 @@ export default function lightboxFactory(images) {
         // const alt = link.split('/').pop().split('.')[0].split('_').join(' ');
         // const alt = link.split('/').pop().split('.')[0].replaceAll(/_/g, ' ');
         const alt = link
-            .replace(/^.*[\\/]/, '')
-            .replace(/\.[^.]+$/, '')
-            .replaceAll(/_/g, ' ');
+            .replace(/(?:^.*[\\/])|(?:\.[^.]+$)/g, '')
+            .replace(/_/g, ' ');
         console.log('replace', alt);
         const container = document.querySelector('.lightbox_container');
         const extension = link.split('.')[1];
