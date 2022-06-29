@@ -69,7 +69,7 @@ function displayPhotographerModal(photographer) {
     const photographerModalDOM = photographerModalModel.getUserModalDOM();
     document.body.appendChild(photographerModalDOM);
     document.querySelector('.modal_submit').addEventListener('click', () => {
-        // alert('Merci pour votre message !');
+        alert('Merci pour votre message !');
     });
 }
 
