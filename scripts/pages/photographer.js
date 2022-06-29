@@ -164,14 +164,14 @@ async function displayDropdownMenu(media) {
     const options = document.querySelectorAll('.dropdown-menu_select-option');
     await displayMedia(sortMedia(media));
     options.forEach((option) => {
-        option.addEventListener('click', () => {
-            option.parentNode.childNodes.forEach((el) => {
-                el.setAttribute('style', 'display: block');
+        option.addEventListener('click', (e) => {
+            selected.textContent = e.currentTarget.textContent;
+            options.forEach((el) => {
+                // TODO: replace with if statement;
+                el.textContent === selected.textContent
+                    ? el.setAttribute('style', 'display: none;')
+                    : el.removeAttribute('style');
             });
-            selected.textContent = option.textContent;
-            option.textContent === selected.textContent
-                ? option.setAttribute('style', 'display: none;')
-                : option.removeAttribute('style');
             const sectionMediaUser = document.querySelector(
                 '.photographer_media-user'
             );
