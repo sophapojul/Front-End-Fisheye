@@ -137,12 +137,15 @@ function displayLikes(data) {
     main.appendChild(likesDOM);
     const likesCount = document.querySelector('.likes_count');
     document.querySelectorAll('.product-heart').forEach((el) => {
-        el.addEventListener('click', (e) => {
-            e.preventDefault();
-            console.log(e);
-            incrementLike(el.previousElementSibling);
-            incrementLike(likesCount);
-        });
+        el.addEventListener(
+            'click',
+            (e) => {
+                e.preventDefault();
+                incrementLike(el.previousElementSibling);
+                incrementLike(likesCount);
+            },
+            { once: true }
+        );
     });
 }
 
