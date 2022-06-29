@@ -32,7 +32,9 @@ export default function dropdownMenuFactory() {
         const ulFilter = addElement(labelFilter, 'ul', '', {
             class: 'dropdown-menu_filter',
             role: 'listbox',
-            tabindex: '-1',
+            tabindex: '0',
+            'aria-label':
+                'filtrer les media par date ou popularité ou par titre',
         });
         addElement(ulFilter, 'li', 'Popularité', {
             class: 'dropdown-menu_filter-selected',
@@ -42,20 +44,30 @@ export default function dropdownMenuFactory() {
         const li = addElement(ulFilter, 'li', '', {});
         const ulSelect = addElement(li, 'ul', '', {
             class: 'dropdown-menu_select',
+            role: 'listbox',
+            tabindex: '0',
+            'aria-label':
+                'filtrer les media par date ou popularité ou par titre',
         });
 
         addElement(ulSelect, 'li', 'Popularité', {
             class: 'dropdown-menu_select-option',
             role: 'option',
+            tabindex: '0',
             style: 'display: none;',
+            'aria-label': 'Popularité',
         });
         addElement(ulSelect, 'li', 'Date', {
             class: 'dropdown-menu_select-option',
             role: 'option',
+            tabindex: '0',
+            'aria-label': 'Date',
         });
         addElement(ulSelect, 'li', 'Titre', {
             class: 'dropdown-menu_select-option',
             role: 'option',
+            tabindex: '0',
+            'aria-label': 'Titre',
         });
         return media;
     }
