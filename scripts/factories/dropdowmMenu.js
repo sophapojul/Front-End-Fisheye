@@ -47,6 +47,7 @@ export default function dropdownMenuFactory() {
         addElement(ulSelect, 'li', 'Popularité', {
             class: 'dropdown-menu_select-option',
             role: 'option',
+            style: 'display: none;',
         });
         addElement(ulSelect, 'li', 'Date', {
             class: 'dropdown-menu_select-option',

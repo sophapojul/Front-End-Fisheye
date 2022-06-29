@@ -162,26 +162,26 @@ async function displayDropdownMenu(media) {
     main.appendChild(dropdownMenuDOM);
     const selected = document.querySelector('.dropdown-menu_filter-selected');
     const options = document.querySelectorAll('.dropdown-menu_select-option');
+    await displayMedia(sortMedia(media));
     options.forEach((option) => {
         option.addEventListener('click', () => {
+            option.parentNode.childNodes.forEach((el) => {
+                el.setAttribute('style', 'display: block');
+            });
             selected.textContent = option.textContent;
+            option.textContent === selected.textContent
+                ? option.setAttribute('style', 'display: none;')
+                : option.removeAttribute('style');
+            const sectionMediaUser = document.querySelector(
+                '.photographer_media-user'
+            );
+            while (sectionMediaUser.firstChild) {
+                sectionMediaUser.removeChild(sectionMediaUser.firstChild);
+            }
+            const sortedMedia = sortMedia(media);
+            displayMedia(sortedMedia);
         });
     });
-    await displayMedia(sortMedia(media));
-    document
-        .querySelectorAll('.dropdown-menu_select-option')
-        .forEach((option) => {
-            option.addEventListener('click', () => {
-                const sectionMediaUser = document.querySelector(
-                    '.photographer_media-user'
-                );
-                while (sectionMediaUser.firstChild) {
-                    sectionMediaUser.removeChild(sectionMediaUser.firstChild);
-                }
-                const sortedMedia = sortMedia(media);
-                displayMedia(sortedMedia);
-            });
-        });
 }
 
 (async () => {
