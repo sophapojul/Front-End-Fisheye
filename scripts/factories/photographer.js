@@ -127,6 +127,8 @@ export default function photographerFactory(data) {
             id: 'modal_form',
             class: 'modal_form',
             name: 'modal_form',
+            action: '#',
+            method: 'POST',
         });
         addElement(form, 'p', `${name}`, { class: 'modal_name' });
         addElement(form, 'label', 'Prénom', { for: 'firstname' });
