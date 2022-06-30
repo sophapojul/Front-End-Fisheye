@@ -1,1 +1,0 @@
-import{g as e,p}from"./api.f38faf45.js";async function h(t){const o=document.querySelector(".photographer_section");t.forEach(r=>{const a=p(r).getUserCardDOM();o.appendChild(a)})}(async function(){const{photographers:o}=await e();await h(o)})();
