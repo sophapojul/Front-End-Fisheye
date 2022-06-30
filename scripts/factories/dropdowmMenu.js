@@ -1,6 +1,14 @@
 import addElement from '../utils/addElement';
 
+/**
+ * It creates a DOM element that contains a dropdown menu
+ * @returns A function that returns an object with a method getDropdownMenuDOM
+ */
 export default function dropdownMenuFactory() {
+    /**
+     * It creates a dropdown menu with a list of options
+     * @returns the DOM element of the dropdown menu.
+     */
     function getDropdownMenuDOM() {
         const main = document.querySelector('#main');
         const media = addElement(main, 'section', '', {
@@ -51,10 +59,9 @@ export default function dropdownMenuFactory() {
         });
 
         addElement(ulSelect, 'li', 'Popularité', {
-            class: 'dropdown-menu_select-option',
+            class: 'dropdown-menu_select-option dropdown-menu_selected-option-hidden',
             role: 'option',
             tabindex: '0',
-            style: 'display: none;',
             'aria-label': 'Popularité',
         });
         addElement(ulSelect, 'li', 'Date', {

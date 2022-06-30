@@ -1,6 +1,6 @@
 import '../../css/style.scss';
 import getPhotographers from '../utils/api';
-import { displayModal } from '../utils/contactForm';
+import { displayModal, closeModal } from '../utils/contactForm';
 import photographerFactory from '../factories/photographer';
 import mediaFactory from '../factories/media';
 import {
@@ -68,8 +68,9 @@ function displayPhotographerModal(photographer) {
     const photographerModalModel = photographerFactory(photographer);
     const photographerModalDOM = photographerModalModel.getUserModalDOM();
     document.body.appendChild(photographerModalDOM);
-    document.querySelector('.modal_submit').addEventListener('click', () => {
-        alert('Merci pour votre message !');
+    document.querySelector('.modal_submit').addEventListener('click', (ev) => {
+        ev.preventDefault();
+        closeModal();
     });
 }
 
@@ -80,13 +81,16 @@ function displayPhotographerModal(photographer) {
  */
 function displayLightbox() {
     const links = Array.from(document.querySelectorAll('.product a'));
-    const images = [...new Set(links.map((link) => link.getAttribute('href')))]; // get unique images
+    // get unique images
+    const images = Array.from(
+        new Set(links.map((link) => link.getAttribute('href')))
+    );
     links.forEach((link) =>
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
+        link.addEventListener('click', (ev) => {
+            ev.preventDefault();
             const lightboxModel = lightboxFactory(images);
             const lightboxDOM = lightboxModel.getLightboxDOM();
-            lightboxModel.getImageDOM(e.currentTarget.getAttribute('href'));
+            lightboxModel.getImageDOM(ev.currentTarget.getAttribute('href'));
             document.body.appendChild(lightboxDOM);
         })
     );
@@ -109,12 +113,14 @@ function sortMedia(media) {
         case 'Date':
             return sortMediaByDate(media);
         default:
+            return media;
     }
 }
 
 /**
  * Get the media for the photographer with the id that matches the id of the photographer that is currently logged in.
  * @param {Object[]} data - The array of objects that we want to filter through.
+ * @param {Number} data[].photographerId - The id of the photographer that we want to get the media for.
  * @returns {Object} An array of objects that have a photographerId property that matches the id of the photographer.
  */
 const getMedia = (data) => {
@@ -126,6 +132,10 @@ const getMedia = (data) => {
  * It takes in a data object, gets the id of the photographer, gets the media of the photographer, adds up the likes of the
  * media, gets the price of the photographer, creates a likes model, gets the likes DOM, and appends it to the main element
  * @param {Object} data - The data object that was passed to the function.
+ * @property {Object[]} data.photographers[] - The array of photographers.
+ * @property {Number} id - The id of the photographer.
+ * @property {Object[]} data.media[] - The array of media.
+ * @property {Number} likes - The array of likes.
  */
 function displayLikes(data) {
     const { photographers, media } = data;
@@ -142,14 +152,28 @@ function displayLikes(data) {
     document.querySelectorAll('.product-heart').forEach((el) => {
         el.addEventListener(
             'click',
-            (e) => {
-                e.preventDefault();
+            (ev) => {
+                ev.preventDefault();
                 incrementLike(el.previousElementSibling);
                 incrementLike(likesCount);
             },
             { once: true }
         );
     });
+}
+
+/**
+ * It hides the selected option from the dropdown menu
+ * @param {Event} ev - the event object
+ * @param {HTMLLIElement} el - the element that is being iterated over
+ */
+function hideSelectedOption(ev, el) {
+    const selectedValue = ev.currentTarget.textContent;
+    if (el.textContent === selectedValue) {
+        el.classList.add('dropdown-menu_selected-option-hidden');
+    } else {
+        el.classList.remove('dropdown-menu_selected-option-hidden');
+    }
 }
 
 /**
@@ -163,21 +187,22 @@ async function displayDropdownMenu(media) {
     const selected = document.querySelector('.dropdown-menu_filter-selected');
     const options = document.querySelectorAll('.dropdown-menu_select-option');
     await displayMedia(sortMedia(media));
+    // add event listener to each option to sort the media when it is clicked
     options.forEach((option) => {
-        option.addEventListener('click', (e) => {
-            selected.textContent = e.currentTarget.textContent;
+        option.addEventListener('click', (ev) => {
+            selected.textContent = ev.currentTarget.textContent;
+            // not display the option that was clicked
             options.forEach((el) => {
-                // TODO: replace with if statement;
-                el.textContent === selected.textContent
-                    ? el.setAttribute('style', 'display: none;')
-                    : el.removeAttribute('style');
+                hideSelectedOption(ev, el);
             });
             const sectionMediaUser = document.querySelector(
                 '.photographer_media-user'
             );
+            // remove all the media from the DOM
             while (sectionMediaUser.firstChild) {
                 sectionMediaUser.removeChild(sectionMediaUser.firstChild);
             }
+            // display the media that was sorted
             const sortedMedia = sortMedia(media);
             displayMedia(sortedMedia);
         });
