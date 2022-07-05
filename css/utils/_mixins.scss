@@ -26,18 +26,6 @@
   right: $right;
 }
 
-@mixin breakpoint-up($size) {
-  @media (min-width: map-get(v.$breakpoints-up, $size)) {
-    @content;
-  }
-}
-
-@mixin breakpoint-down($size) {
-  @media (max-width: map-get(v.$breakpoints-down, $size)) {
-    @content;
-  }
-}
-
 @mixin set-bg($color) {
   background-color: $color;
   color: f.set-text-color($color);
