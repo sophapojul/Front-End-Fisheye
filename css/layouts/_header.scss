@@ -3,6 +3,7 @@
 header {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   height: u.rem(90);
@@ -23,8 +24,10 @@ header {
   background-color: u.$color-photograph-header-bg;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  align-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  column-gap: 50px;
+  //justify-content: center;
+  //align-items: center;
   place-items: center;
   //display: flex;
   //flex-direction: column;
@@ -48,13 +51,17 @@ header {
     margin: u.rem(30);
 
     & > * {
-      flex-shrink: 0;
+      //flex-shrink: 1;
+      //flex-grow: 1;
+      //flex-basis: auto;
+      //overflow-wrap: break-word;
     }
 
     .photographer_name {
       font-size: u.rem(64);
       font-weight: 400;
       color: u.$color-secondary;
+      //width: min-content;
     }
 
     .photographer_location {

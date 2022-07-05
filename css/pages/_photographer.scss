@@ -2,3 +2,8 @@
 @use '../components' as c;
 @use "../layouts" as l;
 @use "../utils" as u;
+
+#main {
+  position: relative;
+  margin-bottom: 20px;
+}
