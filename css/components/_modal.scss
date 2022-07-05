@@ -44,4 +44,10 @@
   #message {
     width: 100%;
   }
+
+  &_submit:hover {
+    color: u.$color-black;
+    background-color: #fff;
+    border: 3px solid u.$color-primary;
+  }
 }
