@@ -154,7 +154,6 @@ export default function photographerFactory(data) {
             id: 'message',
             name: 'message',
             rows: '10',
-            cols: '70',
         });
         addElement(form, 'button', 'Envoyer', {
             class: 'modal_submit',
