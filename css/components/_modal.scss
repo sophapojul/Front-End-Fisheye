@@ -15,7 +15,7 @@
   background-color: u.$color-bg-light;
   width: 90%;
   height: 100%;
-  max-width: 740px;
+  max-width: u.rem(740);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,19 +24,14 @@
   margin: auto;
   overflow-y: auto;
 
-  & header {
-    justify-content: space-between;
-    width: 100%;
+  &_close {
+    cursor: pointer;
+  }
 
-    & img {
-      cursor: pointer;
-    }
-
-    & h2 {
-      font-size: 64px;
-      font-weight: normal;
-      text-align: center;
-    }
+  &_title {
+    font-size: 64px;
+    font-weight: normal;
+    text-align: center;
   }
 
   &_name {
