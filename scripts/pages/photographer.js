@@ -9,7 +9,7 @@ import {
     sortMediaByDate,
 } from '../utils/dropdownMenu';
 import lightboxFactory from '../factories/lightbox';
-import dropdownMenuFactory from '../factories/dropdowmMenu';
+import dropdownFactory from '../factories/dropdown';
 import { likesFactory, incrementLike } from '../factories/likes';
 
 const main = document.querySelector('main');
@@ -40,7 +40,9 @@ const getPhotograph = (data) => {
  * @param {Object[]} userMedia - an array of media objects
  */
 async function displayMedia(userMedia) {
-    const section = document.querySelector('.photographer_media-user');
+    const section = document.createElement('div');
+    section.className = 'photographer_media';
+    main.appendChild(section);
     userMedia.forEach((media) => {
         const mediaModel = mediaFactory(media);
         const mediaDOM = mediaModel.getUserMediaDOM();
@@ -102,9 +104,8 @@ function displayLightbox() {
  * @returns {Object[]} the sorted media.
  */
 function sortMedia(media) {
-    const selectedValue = document.querySelector(
-        '.dropdown-menu_filter-selected'
-    ).textContent;
+    const selectedValue = document.querySelector('.option-current').textContent;
+    // selectForm.sort_by[selectForm.sort_by.selectedIndex].value;
     switch (selectedValue) {
         case 'Popularité':
             return sortMediaByPopularity(media);
@@ -163,14 +164,16 @@ function displayLikes(data) {
 }
 
 /**
- * It hides the selected option from the dropdown menu
- * @param {Event} ev - the event object
- * @param {HTMLLIElement} el - the element that is being iterated over
+ * If the value of the element is equal to the selected value, add the class 'dropdown-menu_selected-option-hidden' to the
+ * element. Otherwise, remove the class 'dropdown-menu_selected-option-hidden' from the element
+ * @param value - the value of the selected option
+ * @param el - the element that is being iterated over
  */
-function hideSelectedOption(ev, el) {
-    const selectedValue = ev.currentTarget.textContent;
-    if (el.textContent === selectedValue) {
+function hideSelectedOption(el) {
+    const selectedValue = el.textContent;
+    if (el.value === selectedValue) {
         el.classList.add('dropdown-menu_selected-option-hidden');
+        // el.className = 'dropdown-menu_selected-option-hidden';
     } else {
         el.classList.remove('dropdown-menu_selected-option-hidden');
     }
@@ -181,27 +184,31 @@ function hideSelectedOption(ev, el) {
  * @param {Object[]} media - an array of objects that contain the media information
  */
 async function displayDropdownMenu(media) {
-    const dropdownMenuModel = dropdownMenuFactory();
-    const dropdownMenuDOM = dropdownMenuModel.getDropdownMenuDOM();
-    main.appendChild(dropdownMenuDOM);
-    const selected = document.querySelector('.dropdown-menu_filter-selected');
-    const options = document.querySelectorAll('.dropdown-menu_select-option');
+    const dropdownModel = dropdownFactory();
+    const dropdownDOM = dropdownModel.getDropdownDOM();
+    main.appendChild(dropdownDOM);
+    // const selected = document.querySelector('.dropdown-menu_filter-selected');
+    const options = document.querySelectorAll('.combo-option');
     await displayMedia(sortMedia(media));
+    document
+        .querySelector('#combo1')
+        .addEventListener('click', dropdownModel.openDropdown);
     // add event listener to each option to sort the media when it is clicked
     options.forEach((option) => {
-        option.addEventListener('click', (ev) => {
-            selected.textContent = ev.currentTarget.textContent;
-            // not display the option that was clicked
+        option.addEventListener('click', () => {
             options.forEach((el) => {
-                hideSelectedOption(ev, el);
+                el.classList.remove('option-current');
+                el.removeAttribute('aria-selected');
             });
-            const sectionMediaUser = document.querySelector(
-                '.photographer_media-user'
-            );
+            hideSelectedOption(option);
+            const comboInput = document.querySelector('.combo-input');
+            comboInput.textContent = option.textContent;
+            comboInput.setAttribute('aria-selected', 'true');
+            comboInput.setAttribute('aria-label', option.textContent);
+            option.classList.add('option-current');
+            option.setAttribute('aria-selected', 'true');
             // remove all the media from the DOM
-            while (sectionMediaUser.firstChild) {
-                sectionMediaUser.removeChild(sectionMediaUser.firstChild);
-            }
+            document.querySelector('.photographer_media').remove();
             // display the media that was sorted
             const sortedMedia = sortMedia(media);
             displayMedia(sortedMedia);
