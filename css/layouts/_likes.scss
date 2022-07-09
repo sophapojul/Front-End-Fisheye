@@ -1,27 +1,25 @@
 @use '../utils' as u;
 
-// TODO position fixed
-
 .likes {
   position: absolute;
   margin-right: -4%;
-  //bottom: 20px;
   right: 0;
   max-width: u.rem(300);
   min-width: u.rem(240);
   width: 25vw;
+  z-index: 10;
 
   &_fixed {
     position: fixed;
     bottom: 0;
+    right: 2.5vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: u.rem(8);
-    //margin-right: -4%;
     background-color: u.$color-secondary;
     max-width: u.rem(300);
-    min-width: u.rem(240);
+    min-width: 16rem;
     width: 25vw;
     padding: 20px clamp(11px, 1px + 1.1vw, 30px);
     border-radius: 5px;
