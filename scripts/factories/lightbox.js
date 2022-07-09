@@ -1,20 +1,11 @@
 import addElement from '../utils/addElement';
 
-// function setAttributes(element, attributes) {
-//     Object.keys(attributes).forEach((attr) => {
-//         element.setAttribute(attr, attributes[attr]);
-//     });
-// }
-
 export default function lightboxFactory(images) {
     function getImageDOM(link) {
         // TODO: regex to get the image title;
         // const alt = link.split('/').pop().split('.')[0].split('_').join(' ');
         // const alt = link.split('/').pop().split('.')[0].replaceAll(/_/g, ' ');
-        const alt = link
-            .replace(/(?:^.*[\\/])|(?:\.[^.]+$)/g, '')
-            .replace(/_/g, ' ');
-        console.log('replace', alt);
+        const alt = link.replace(/^.*[\\/]|\.[^.]+$/g, '').replace(/_/g, ' ');
         const container = document.querySelector('.lightbox_container');
         const extension = link.split('.')[1];
         if (extension === 'mp4') {
@@ -41,17 +32,6 @@ export default function lightboxFactory(images) {
     }
 
     function getLightboxDOM() {
-        // const lightbox = document.createElement('div');
-        // const attributes = {
-        //     class: 'lightbox',
-        //     role: 'dialog',
-        //     'aria-hidden': 'true',
-        //     'aria-modal': 'false',
-        //     'aria-labelledby': 'contact_modal_title',
-        //     style: 'display: block',
-        // };
-        // setAttributes(lightbox, attributes);
-        // document.body.insertBefore(lightbox, document.body.lastChild);
         const lightbox = addElement(document.body, 'div', '', {
             class: 'lightbox',
             role: 'dialog',
@@ -74,8 +54,9 @@ export default function lightboxFactory(images) {
             class: 'lightbox_container',
         });
 
-        function closeLightbox(e) {
+        function closeLightbox(e, previousElement) {
             e.preventDefault();
+            previousElement.focus();
             lightbox.remove();
             document.removeEventListener('click', closeLightbox);
             document.removeEventListener('keydown', onKeyUp);
@@ -125,7 +106,10 @@ export default function lightboxFactory(images) {
 
         document.addEventListener('keydown', onKeyUp);
         const close = lightbox.querySelector('.lightbox_close');
-        close.addEventListener('click', closeLightbox);
+        const previousElement = document.activeElement;
+        close.addEventListener('click', (e) => {
+            closeLightbox(e, previousElement);
+        });
         const prev = lightbox.querySelector('.lightbox_prev');
         prev.addEventListener('click', prevLightbox);
         const next = lightbox.querySelector('.lightbox_next');

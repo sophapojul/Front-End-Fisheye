@@ -83,6 +83,32 @@ function displayPhotographerModal(photographer) {
  */
 function displayLightbox() {
     const links = Array.from(document.querySelectorAll('.product a'));
+    const trapFocus = (el) => {
+        const focusableEls = Array.from(
+            el.querySelectorAll('button:not([disabled])')
+        );
+        const firstFocusableEl = focusableEls[0];
+        const lastFocusableEl = focusableEls[focusableEls.length - 1];
+
+        el.addEventListener('keydown', (ev) => {
+            const isTabPressed = ev.key === 'Tab' || ev.code === '9';
+            if (!isTabPressed) {
+                return;
+            }
+            if (ev.shiftKey) {
+                if (document.activeElement === firstFocusableEl) {
+                    /* shift + tab */
+                    lastFocusableEl.focus();
+                    ev.preventDefault();
+                }
+            } else if (document.activeElement === lastFocusableEl) {
+                /* tab */
+                firstFocusableEl.focus();
+                ev.preventDefault();
+            }
+        });
+    };
+
     // get unique images
     const images = Array.from(
         new Set(links.map((link) => link.getAttribute('href')))
@@ -94,6 +120,8 @@ function displayLightbox() {
             const lightboxDOM = lightboxModel.getLightboxDOM();
             lightboxModel.getImageDOM(ev.currentTarget.getAttribute('href'));
             document.body.appendChild(lightboxDOM);
+            document.querySelector('.lightbox_close').focus();
+            trapFocus(lightboxDOM);
         })
     );
 }
@@ -164,10 +192,9 @@ function displayLikes(data) {
 }
 
 /**
- * If the value of the element is equal to the selected value, add the class 'dropdown-menu_selected-option-hidden' to the
- * element. Otherwise, remove the class 'dropdown-menu_selected-option-hidden' from the element
- * @param value - the value of the selected option
- * @param el - the element that is being iterated over
+ * If the value of the option is the same as the text content of the option, then add the class
+ * 'dropdown-menu_selected-option-hidden' to the option
+ * @param el - the element that we want to hide
  */
 function hideSelectedOption(el) {
     const selectedValue = el.textContent;
