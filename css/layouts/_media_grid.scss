@@ -4,7 +4,7 @@
   position: relative;
 }
 
-.photographer_media-user {
+.photographer_media {
   @extend %grid-275;
 
   .product {
@@ -12,6 +12,7 @@
 
     &-video,
     &-img {
+      width: 100%;
       aspect-ratio: 7 / 6;
     }
 
