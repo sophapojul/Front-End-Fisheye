@@ -1,9 +1,14 @@
 @use '../utils' as u;
 
-* {
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+*:focus,
+*:focus-visible {
+  outline: none;
 }
 
 button {
@@ -20,15 +25,14 @@ li {
 
 video,
 img {
-  width: 100%;
-  height: auto;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: cover;
-  //object-position: center center;
 }
 
 body {
   width: 100vw;
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 clamp(u.rem(8), 7vw - u.rem(12), u.rem(100));
+  padding: 0 clamp(.5rem, 7vw - 1rem, 7rem);
 }
