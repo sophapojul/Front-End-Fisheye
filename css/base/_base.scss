@@ -8,7 +8,7 @@
 
 *:focus,
 *:focus-visible {
-  outline: none;
+  outline: u.$color-secondary 1px solid;
 }
 
 button {
