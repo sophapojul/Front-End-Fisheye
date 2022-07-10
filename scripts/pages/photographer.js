@@ -1,6 +1,6 @@
 import '../../css/style.scss';
 import getPhotographers from '../utils/api';
-import { displayModal, closeModal } from '../utils/contactForm';
+import { displayModal, closeModal } from '../utils/modal';
 import photographerFactory from '../factories/photographer';
 import mediaFactory from '../factories/media';
 import {
@@ -11,6 +11,7 @@ import {
 import lightboxFactory from '../factories/lightbox';
 import dropdownFactory from '../factories/dropdown';
 import { likesFactory, incrementLike } from '../factories/likes';
+import trapFocus from '../utils/trapFocus';
 
 const main = document.querySelector('main');
 
@@ -70,6 +71,8 @@ function displayPhotographerModal(photographer) {
     const photographerModalModel = photographerFactory(photographer);
     const photographerModalDOM = photographerModalModel.getUserModalDOM();
     document.body.appendChild(photographerModalDOM);
+    document.querySelector('.modal_close').focus();
+    trapFocus(photographerModalDOM);
     document.querySelector('.modal_submit').addEventListener('click', (ev) => {
         ev.preventDefault();
         closeModal();
@@ -83,32 +86,6 @@ function displayPhotographerModal(photographer) {
  */
 function displayLightbox() {
     const links = Array.from(document.querySelectorAll('.product a'));
-    const trapFocus = (el) => {
-        const focusableEls = Array.from(
-            el.querySelectorAll('button:not([disabled])')
-        );
-        const firstFocusableEl = focusableEls[0];
-        const lastFocusableEl = focusableEls[focusableEls.length - 1];
-
-        el.addEventListener('keydown', (ev) => {
-            const isTabPressed = ev.key === 'Tab' || ev.code === '9';
-            if (!isTabPressed) {
-                return;
-            }
-            if (ev.shiftKey) {
-                if (document.activeElement === firstFocusableEl) {
-                    /* shift + tab */
-                    lastFocusableEl.focus();
-                    ev.preventDefault();
-                }
-            } else if (document.activeElement === lastFocusableEl) {
-                /* tab */
-                firstFocusableEl.focus();
-                ev.preventDefault();
-            }
-        });
-    };
-
     // get unique images
     const images = Array.from(
         new Set(links.map((link) => link.getAttribute('href')))
