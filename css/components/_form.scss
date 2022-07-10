@@ -3,9 +3,13 @@
 form {
   @extend %flex-col-100p;
 
+  & > * {
+    font-size: clamp(1rem, 7vw, #{u.rem(36)});
+    width: 100%;
+  }
+
   & label {
     color: u.$color-dark-label;
-    font-size: clamp(1rem, 7vw, #{u.rem(36)});
   }
 
   & div {
@@ -19,4 +23,6 @@ form {
     border: none;
     border-radius: u.$border-radius-xs;
   }
+
+
 }
