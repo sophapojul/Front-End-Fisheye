@@ -86,80 +86,29 @@ export default function photographerFactory(data) {
         };
         const contactModal = document.createElement('div');
         setAttributes(contactModal, attributes);
-        const modal = addElement(contactModal, 'div', '', {
-            class: 'modal',
-            role: 'document',
-        });
-        const header = addElement(modal, 'div', '', {
-            class: 'modal_header',
-            role: 'heading',
-            'aria-level': '2',
-        });
-        addElement(header, 'h2', 'Contactez-moi', {
-            class: 'modal_title',
-            id: 'contact_modal_title',
-        });
-        const btn = addElement(header, 'button', '', {
-            type: 'button',
-            'aria-label': 'fermer le formulaire de contact',
-            class: 'modal_close',
-            id: 'modal_close',
-        });
-        btn.innerHTML = `
-        <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z" fill="white"/>
-        </svg>
+        contactModal.innerHTML = `
+            <div class="modal" role="document">
+                <div class="modal_header" >
+                    <h1 class="modal_title" id="contact_modal_title">Contactez-moi<span> ${name}</span></h1>
+                    <button type="button" aria-label="fermer le formulaire de contact" class="modal_close" id="modal_close">
+                        <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z" fill="white"></path>
+                        </svg>
+                    </button>
+                </div>
+                <form id="modal_form" class="modal_form" name="modal_form" action="" method="POST">
+                    <label for="firstname" id="firstname">Prénom</label>
+                    <input type="text" name="firstname" aria-labelledby="firstname">
+                    <label for="lastname" id="lastname">Nom</label>
+                    <input type="text" name="lastname" aria-labelledby="lastname">
+                    <label for="email" id="email">Email</label>
+                    <input type="email" name="email" aria-labelledby="email">
+                    <label for="message" id="message">Votre message</label>
+                    <textarea name="message" rows="4" aria-labelledby="message"></textarea>
+                    <button class="modal_submit" type="submit" aria-label="envoyer le formulaire de contact">Envoyer</button>
+                </form>
+            </div>
         `;
-        // addElement(
-        //     header,
-        //     'svg',
-        //     `<path d="M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z" fill="white"/>`,
-        //     {
-        //         width: '42',
-        //         height: '42',
-        //         'aria-hidden': 'true',
-        //         viewBox: '0 0 42 42',
-        //         fill: 'white',
-        //         xmlns: 'http://www.w3.org/2000/svg',
-        //     }
-        // );
-        const form = addElement(modal, 'form', '', {
-            id: 'modal_form',
-            class: 'modal_form',
-            name: 'modal_form',
-            action: '#',
-            method: 'POST',
-        });
-        addElement(form, 'p', `${name}`, { class: 'modal_name' });
-        addElement(form, 'label', 'Prénom', { for: 'firstname' });
-        addElement(form, 'input', '', {
-            type: 'text',
-            id: 'firstname',
-            name: 'firstname',
-        });
-        addElement(form, 'label', 'Nom', { for: 'lastname' });
-        addElement(form, 'input', '', {
-            type: 'text',
-            id: 'lastname',
-            name: 'lastname',
-        });
-        addElement(form, 'label', 'Email', { for: 'email' });
-        addElement(form, 'input', '', {
-            type: 'email',
-            id: 'email',
-            name: 'email',
-        });
-        addElement(form, 'label', 'Votre message', { for: 'message' });
-        addElement(form, 'textarea', '', {
-            id: 'message',
-            name: 'message',
-            rows: '10',
-        });
-        addElement(form, 'button', 'Envoyer', {
-            class: 'modal_submit',
-            type: 'submit',
-            'aria-label': 'envoyer le formulaire de contact',
-        });
         return contactModal;
     }
 
