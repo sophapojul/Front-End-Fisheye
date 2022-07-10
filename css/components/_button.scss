@@ -35,3 +35,10 @@
     height: clamp(1.3rem, 6vw, 3rem);
   }
 }
+
+.modal_submit:hover,
+.modal_submit:focus,
+.modal_submit:focus-visible {
+  background-color: u.$color-white;
+  color: u.$color-black;
+}
