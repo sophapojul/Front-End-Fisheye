@@ -23,10 +23,15 @@
 .modal_close {
   display: inline-block;
   padding: 0;
-  height: u.rem(48);
-  width: u.rem(48);
+  width: clamp(1.3rem, 6vw, 3rem);
+  height: clamp(1.3rem, 6vw, 3rem);
   border: none;
   background-color: transparent;
-  //background: url(assets/icons/close.svg) center center no-repeat transparent;
   cursor: pointer;
+
+  svg {
+    aspect-ratio: 1;
+    width: clamp(1.3rem, 6vw, 3rem);
+    height: clamp(1.3rem, 6vw, 3rem);
+  }
 }

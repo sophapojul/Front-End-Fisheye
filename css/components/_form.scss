@@ -5,7 +5,7 @@ form {
 
   & label {
     color: u.$color-dark-label;
-    font-size: u.rem(36);
+    font-size: clamp(1rem, 7vw, #{u.rem(36)});
   }
 
   & div {
