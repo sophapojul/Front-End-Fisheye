@@ -1,6 +1,14 @@
-export default async function getPhotographers() {
-    return fetch('data/photographers.json').then((res) => {
-        if (!res) throw new Error('Not Found');
-        res.json();
-    });
+function handleErrors(response) {
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+    return response;
 }
+
+const getPhotographers = () =>
+    fetch('data/photographers.json')
+        .then(handleErrors)
+        .then((res) => res.json())
+        .catch((err) => console.log(err));
+
+export default getPhotographers;
