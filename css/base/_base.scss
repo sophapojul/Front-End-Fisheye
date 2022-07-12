@@ -4,11 +4,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  line-height: 1.5;
 }
 
 *:focus,
 *:focus-visible {
-  outline: u.$color-secondary 1px solid;
+  box-shadow: 0 0 0 2px white, 0 0 0 5px u.$color-primary;
+  outline: none;
 }
 
 button {
