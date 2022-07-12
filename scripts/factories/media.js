@@ -11,7 +11,7 @@ export default function mediaFactory(data) {
             class: 'product',
         });
 
-        function setUserVideo() {
+        function getUserVideo() {
             const a = addElement(article, 'a', '', {
                 href: userVideo,
             });
@@ -26,7 +26,7 @@ export default function mediaFactory(data) {
             });
         }
 
-        function setUserImage() {
+        function getUserImage() {
             const a = addElement(article, 'a', '', {
                 href: userImage,
             });
@@ -39,9 +39,9 @@ export default function mediaFactory(data) {
         }
 
         if (video) {
-            setUserVideo();
+            getUserVideo();
         } else {
-            setUserImage();
+            getUserImage();
         }
         const footer = addElement(article, 'footer', '', {
             class: 'product-footer',
