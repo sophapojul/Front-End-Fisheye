@@ -76,8 +76,8 @@ export default function dropdownFactory() {
     }
 
     function onKeyDown(ev) {
-        ev.preventDefault();
         const { key } = ev;
+        console.log(key);
         const comboMenu = document.querySelector('.combo-input');
         const comboOptions = Array.from(
             document.querySelectorAll('.combo-option')
@@ -88,9 +88,12 @@ export default function dropdownFactory() {
         );
         switch (key) {
             case 'Escape':
+                ev.preventDefault();
                 closeDropdown();
                 break;
-            case 'Enter': {
+            case 'Enter':
+            case ' ': {
+                ev.preventDefault();
                 if (
                     document
                         .querySelector('.js-select')
@@ -118,6 +121,7 @@ export default function dropdownFactory() {
                 break;
             }
             case 'ArrowDown': {
+                ev.preventDefault();
                 if (
                     document
                         .querySelector('.js-select')
@@ -134,6 +138,7 @@ export default function dropdownFactory() {
                 break;
             }
             case 'ArrowUp': {
+                ev.preventDefault();
                 if (
                     document
                         .querySelector('.js-select')
