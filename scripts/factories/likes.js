@@ -5,14 +5,11 @@
  * @returns {Object} An object with a function getLikesDOM
  */
 export function likesFactory(likes, price) {
-    // const heart = `assets/icons/heart.svg`;
-
     function getLikesDOM() {
         const likesDOM = document.createElement('aside');
         likesDOM.classList.add('likes');
-        // likesDOM.setAttribute('role', 'region');
         likesDOM.innerHTML = `
-        <div class="likes_fixed" tabindex="0">
+        <div class="likes_fixed" >
                 <span id="likes_count" class="likes_count" aria-live="polite" >${likes.toLocaleString(
                     'fr'
                 )}</span><span id="likes">likes</span>  
