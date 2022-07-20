@@ -41,10 +41,10 @@ const getPhotograph = (data) => {
  * @param {Object[]} userMedia - an array of media objects
  */
 async function displayMedia(userMedia) {
-    const section = document.createElement('div');
+    const section = document.createElement('section');
     section.className = 'photographer_media';
     section.setAttribute('aria-label', 'Media');
-    section.setAttribute('role', 'region');
+    // section.setAttribute('role', 'region');
     main.appendChild(section);
     userMedia.forEach((media) => {
         const mediaModel = mediaFactory(media);

@@ -11,12 +11,13 @@ export default function dropdownFactory() {
      */
     function getDropdownDOM() {
         const main = document.querySelector('#main');
-        const dropdown = addElement(main, 'div', '', {
+        const dropdown = addElement(main, 'section', '', {
             class: 'dropdown',
+            role: 'menu',
         });
         dropdown.innerHTML = `
             <label id="combo1-label" class="combo-label">Trier par </label>
-            <div class="combo js-select" tabindex="0">
+            <div class="combo js-select">
               <div aria-controls="listbox1"
                    aria-expanded="false"
                    aria-haspopup="listbox"
@@ -25,13 +26,14 @@ export default function dropdownFactory() {
                    class="combo-input"
                    role="combobox"
                    aria-activedescendant="combo1-0"
-                   >Popularité
+                   tabindex="0">
+                   Popularité
               </div>
               <div class="combo-menu"
                    role="listbox"
                    id="listbox1"
                    aria-labelledby="combo1-label"
-                   >
+                   tabindex="-1">
                    <div role="option" id="combo1-0" class="combo-option option-current" aria-selected="true" tabindex="0">Popularité</div>
                    <div role="option" id="combo1-1" class="combo-option" aria-selected="false" tabindex="0">Date</div>
                    <div role="option" id="combo1-2" class="combo-option" aria-selected="false" tabindex="0">Titre</div>
