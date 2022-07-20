@@ -189,6 +189,9 @@ async function displayDropdownMenu(media) {
         option.addEventListener('click', (ev) =>
             dropdownModel.onClick(ev.target)
         );
+        option.addEventListener('keydown', (ev) =>
+            dropdownModel.onKeyDown(ev.target)
+        );
     });
 }
 
