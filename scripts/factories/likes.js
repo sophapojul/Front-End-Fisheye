@@ -10,7 +10,7 @@ export function likesFactory(likes, price) {
         likesDOM.classList.add('likes');
         likesDOM.innerHTML = `
         <div class="likes_fixed" >
-                <span id="likes_count" class="likes_count" aria-live="polite" >${likes.toLocaleString(
+                <span id="likes_count" class="likes_count" role="alert" >${likes.toLocaleString(
                     'fr'
                 )}</span><span id="likes">likes</span>  
                 <svg width="19" height="19" viewBox="0 0 19 19" class="likes_heart" fill="none" xmlns="http://www.w3.org/2000/svg">

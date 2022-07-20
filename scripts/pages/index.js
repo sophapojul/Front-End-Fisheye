@@ -3,9 +3,6 @@ import photographerFactory from '../factories/photographer';
 import getPhotographers from '../utils/api';
 
 async function displayData(photographers) {
-    // const photographersSection = document.querySelector(
-    //     '.photographer_section'
-    // );
     const main = document.querySelector('main');
     const ul = document.createElement('ul');
     ul.className = 'photographer_list';

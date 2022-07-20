@@ -23,7 +23,6 @@ export default function lightboxFactory(images) {
                 alt,
                 'aria-labelledBy': 'lightbox_title',
             });
-            // document.querySelector('.lightbox_image').focus();
         }
         addElement(figure, 'figcaption', `${alt}`, {
             class: 'lightbox_title',

@@ -12,9 +12,6 @@ export default function mediaFactory(data) {
         });
 
         function getUserVideo() {
-            // const a = addElement(figure, 'a', '', {
-            //     href: userVideo,
-            // });
             const vid = addElement(figure, 'video', '', {
                 class: 'product-video',
                 controls: 'controls',
@@ -24,15 +21,11 @@ export default function mediaFactory(data) {
             addElement(vid, 'source', '', {
                 src: `${userVideo}#t=0.1`,
                 type: 'video/mp4',
-                // controls: 'controls',
-                // tabindex: '0',
+                controls: 'controls',
             });
         }
 
         function getUserImage() {
-            // const a = addElement(figure, 'a', '', {
-            //     href: userImage,
-            // });
             addElement(figure, 'img', '', {
                 class: 'product-img',
                 src: userImage,

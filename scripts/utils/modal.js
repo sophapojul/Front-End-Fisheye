@@ -29,7 +29,6 @@ export function closeModal() {
     modal
         .querySelector('.modal')
         .removeEventListener('click', (e) => e.stopPropagation());
-    // modal.removeEventListener('keydown', focusInModal);
     modal.removeEventListener('keydown', closeModalOnEscape);
     modal = null;
 }
@@ -44,16 +43,12 @@ export function displayModal(photographer) {
     document.body.className = 'no-scroll';
     document.querySelector('main').setAttribute('aria-hidden', 'true');
     document.querySelector('header').setAttribute('aria-hidden', 'true');
-    // modal.style.display = 'block';
     focusable[0].focus();
-    // modal.removeAttribute('aria-hidden');
-    // modal.setAttribute('aria-modal', 'true');
     modal.addEventListener('click', closeModal);
     modal.querySelector('.modal_close').addEventListener('click', closeModal);
     modal
         .querySelector('.modal')
         .addEventListener('click', (e) => e.stopPropagation());
-    // modal.addEventListener('keydown', focusInModal);
     modal.addEventListener('keydown', closeModalOnEscape);
     document.querySelector('.modal_close').focus();
     trapFocus(photographerModalDOM);

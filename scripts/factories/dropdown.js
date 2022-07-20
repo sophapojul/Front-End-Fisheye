@@ -70,7 +70,7 @@ export default function dropdownFactory() {
         const comboMenu = document.querySelector('.combo-menu');
         jsSelect.classList.remove('open');
         comboInput.setAttribute('aria-expanded', 'false');
-        jsSelect.focus();
+        comboInput.focus();
         comboMenu.removeEventListener('mouseover', onMouseOver);
         comboMenu.removeEventListener('keydown', onKeyDown);
     }
@@ -107,7 +107,7 @@ export default function dropdownFactory() {
                     document
                         .querySelector('.option-current')
                         .classList.remove('option-current');
-                    activeDescendant.setAttribute('aria-selected', 'true');
+                    document.activeElement.setAttribute('aria-selected', 'true');
                     document.activeElement.classList.add('option-current');
                     comboMenu.innerText = document.activeElement.innerText;
                     comboMenu.setAttribute(
@@ -172,16 +172,15 @@ export default function dropdownFactory() {
         selected.removeAttribute('aria-selected');
         // hideSelectedOption(option);
         comboInput.textContent = option.textContent;
-        comboInput.setAttribute('aria-activedescendant', option.id);
         option.classList.add('option-current');
         option.setAttribute('aria-selected', 'true');
+        comboInput.setAttribute('aria-activedescendant', option.id);
         openDropdown();
     };
 
     return {
         getDropdownDOM,
         openDropdown,
-        closeDropdown,
         onClick,
         onKeyDown,
         onMouseOver,

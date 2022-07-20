@@ -102,7 +102,6 @@ function sortMedia(media) {
     const selectedValue = document.querySelector(
         '[aria-selected="true"]'
     ).textContent;
-    // selectForm.sort_by[selectForm.sort_by.selectedIndex].value;
     switch (selectedValue) {
         case 'Popularité':
             return sortMediaByPopularity(media);
