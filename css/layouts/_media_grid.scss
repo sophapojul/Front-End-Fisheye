@@ -1,11 +1,9 @@
 @use '../utils' as u;
 
 .photographer_media {
-  position: relative;
-}
-
-.photographer_media {
   @extend %grid-275;
+  position: relative;
+  padding-bottom: 3rem;
 
   .product {
     aspect-ratio: 1;
@@ -16,21 +14,26 @@
       aspect-ratio: 7 / 6;
     }
 
-    &-footer {
+    &-figcaption {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      //column-gap: 1rem;
       padding: u.rem(8) 0;
       color: u.$color-primary;
-    }
-
-    &-title {
       font-size: u.rem(24);
-      margin-right: u.rem(20);
-    }
 
+      #product_likes {
+        text-indent: -9999px;
+      }
+    }
 
     &-likes {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      column-gap: .5rem;
+      padding-left: 1rem;
       margin-inline: auto u.rem(7);
       font-size: u.rem(24);
     }

@@ -2,71 +2,82 @@ import addElement from '../utils/addElement';
 
 export default function lightboxFactory(images) {
     function getImageDOM(link) {
-        // TODO: regex to get the image title;
         // const alt = link.split('/').pop().split('.')[0].split('_').join(' ');
         // const alt = link.split('/').pop().split('.')[0].replaceAll(/_/g, ' ');
         const alt = link.replace(/^.*[\\/]|\.[^.]+$/g, '').replace(/_/g, ' ');
-        const container = document.querySelector('.lightbox_container');
+        const figure = document.querySelector('.lightbox_figure');
         const extension = link.split('.')[1];
+        figure.innerHTML = '';
         if (extension === 'mp4') {
-            container.innerHTML = '';
-            addElement(container, 'video', '', {
-                class: 'lightbox_video',
-                controls: true,
+            addElement(figure, 'video', '', {
                 src: link,
+                title: alt,
+                'aria-labelledBy': 'lightbox_title',
+                controls: true,
+                className: 'lightbox_media',
             });
         } else {
-            container.innerHTML = '';
-            addElement(container, 'div', '', {
-                class: 'lightbox_loader',
+            addElement(figure, 'img', '', {
+                class: 'lightbox_media',
+                src: link,
+                alt,
+                'aria-labelledBy': 'lightbox_title',
             });
-            const image = document.createElement('img');
-            image.setAttribute('src', link);
-            image.setAttribute('alt', alt);
-            image.setAttribute('class', 'lightbox_image');
-            image.onload = () => {
-                container.innerHTML = '';
-                container.appendChild(image);
-            };
+            // document.querySelector('.lightbox_image').focus();
         }
+        addElement(figure, 'figcaption', `${alt}`, {
+            class: 'lightbox_title',
+            id: 'lightbox_title',
+            'aria-hidden': 'true',
+        });
     }
 
     function getLightboxDOM() {
         const lightbox = addElement(document.body, 'div', '', {
             class: 'lightbox',
             role: 'dialog',
-            'aria-hidden': 'true',
-            'aria-modal': 'false',
-            'aria-labelledby': 'contact_modal_title',
-            style: 'display: block',
+            'aria-hidden': 'false',
+            'aria-modal': 'true',
+            'aria-labelledBy': 'lightbox_title',
         });
-        addElement(lightbox, 'button', '', {
-            class: 'lightbox_close',
+        const container = addElement(lightbox, 'div', '', {
+            id: 'lightbox_container',
+            class: 'lightbox_container',
         });
-        addElement(lightbox, 'button', '', {
-            class: 'lightbox_prev',
+        addElement(container, 'figure', '', {
+            class: 'lightbox_figure',
+            tabindex: '0',
         });
         addElement(lightbox, 'button', '', {
             class: 'lightbox_next',
+            role: 'button',
+            'aria-label': 'Va au media suivant',
         });
-        addElement(lightbox, 'div', '', {
-            id: 'lightbox_container',
-            class: 'lightbox_container',
+        addElement(lightbox, 'button', '', {
+            class: 'lightbox_close',
+            role: 'button',
+            'aria-label': 'Ferme la fenêtre de dialogue',
+        });
+        addElement(lightbox, 'button', '', {
+            class: 'lightbox_prev',
+            role: 'button',
+            'aria-label': 'Va au media précédent',
         });
 
         function closeLightbox(e, previousElement) {
             e.preventDefault();
-            previousElement.focus();
+            document.body.classList.remove('no-scroll');
             lightbox.remove();
+            document.querySelector('#main').removeAttribute('inert');
+            document.removeEventListener('keydown', onKeyDown);
             document.removeEventListener('click', closeLightbox);
-            document.removeEventListener('keydown', onKeyUp);
+            previousElement.focus();
         }
 
         function currentIndex(e) {
             e.preventDefault();
-            const currentImg = document.querySelector(
-                '#lightbox_container'
-            ).firstElementChild;
+            const currentImg = document.querySelector('#lightbox_container')
+                .firstElementChild.firstElementChild;
             return images.findIndex(
                 (image) => image === currentImg.getAttribute('src')
             );
@@ -88,10 +99,10 @@ export default function lightboxFactory(images) {
             getImageDOM(images[index + 1]);
         }
 
-        function onKeyUp(e) {
+        function onKeyDown(e) {
             switch (e.key) {
                 case 'Escape':
-                    closeLightbox(e);
+                    closeLightbox(e, previousElement);
                     break;
                 case 'ArrowLeft':
                     prevLightbox(e);
@@ -104,7 +115,7 @@ export default function lightboxFactory(images) {
             }
         }
 
-        document.addEventListener('keydown', onKeyUp);
+        lightbox.addEventListener('keydown', onKeyDown);
         const close = lightbox.querySelector('.lightbox_close');
         const previousElement = document.activeElement;
         close.addEventListener('click', (e) => {

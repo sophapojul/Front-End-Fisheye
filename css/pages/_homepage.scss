@@ -1,42 +1,41 @@
 @use '../base';
 @use "../utils" as u;
 
-.photographer_section {
+.photographer_list {
   @extend %grid-275;
+}
 
-  .photographer {
-    padding: 20px 0;
-    font-size: u.rem(13);
-    @include u.flex-center(column);
+.photographer_card {
+  padding: 20px 0;
+  font-size: u.rem(13);
+  @include u.flex-center(column);
 
-    &_name {
-      color: u.$color-secondary;
-      font-size: u.rem(36);
-      text-align: center;
-      margin-top: u.rem(20);
-    }
-
-    &_picture {
-      height: u.rem(200);
-      width: u.rem(200);
-      border-radius: 50%;
-      cursor: pointer;
-    }
-
-    &_location {
-      color: u.$color-primary;
-    }
-
-    &_tagline {
-      quotes: none;
-      color: u.$color-black;
-    }
-
-    &_price {
-      color: u.$color-light-grey;
-      font-size: u.rem(9);
-    }
+  &-name {
+    color: u.$color-secondary;
+    font-size: u.rem(36);
+    text-align: center;
+    margin-top: u.rem(20);
   }
 
+  &-picture {
+    height: u.rem(200);
+    width: u.rem(200);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  &-location {
+    color: u.$color-primary;
+  }
+
+  &-tagline {
+    quotes: none;
+    color: u.$color-black;
+  }
+
+  &-price {
+    color: u.$color-light-grey;
+    font-size: u.rem(9);
+  }
 }
 

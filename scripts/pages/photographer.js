@@ -43,6 +43,8 @@ const getPhotograph = (data) => {
 async function displayMedia(userMedia) {
     const section = document.createElement('div');
     section.className = 'photographer_media';
+    section.setAttribute('aria-label', 'Media');
+    section.setAttribute('role', 'region');
     main.appendChild(section);
     userMedia.forEach((media) => {
         const mediaModel = mediaFactory(media);
@@ -63,44 +65,32 @@ async function displayPhotographerHeader(photographer) {
 }
 
 /**
- * It takes a photographer object, creates a photographer model, gets the photographer modal DOM from the photographer
- * model, and appends the photographer modal DOM to the body.
- * @param {Object} photographer - The photographer object that was clicked on.
- */
-function displayPhotographerModal(photographer) {
-    const photographerModalModel = photographerFactory(photographer);
-    const photographerModalDOM = photographerModalModel.getUserModalDOM();
-    document.body.appendChild(photographerModalDOM);
-    document.querySelector('.modal_close').focus();
-    trapFocus(photographerModalDOM);
-    document.querySelector('.modal_submit').addEventListener('click', (ev) => {
-        ev.preventDefault();
-        closeModal();
-    });
-}
-
-/**
  * It takes all the links in the page, gets the unique images from them, and then adds an event listener to each link that
  * creates a lightbox model, gets the lightbox DOM from the model, gets the image DOM from the model, and then appends the
  * lightbox DOM to the body
  */
 function displayLightbox() {
-    const links = Array.from(document.querySelectorAll('.product a'));
+    const imgList = Array.from(document.querySelectorAll('.product-img'));
     // get unique images
     const images = Array.from(
-        new Set(links.map((link) => link.getAttribute('href')))
+        new Set(imgList.map((link) => link.getAttribute('src')))
     );
-    links.forEach((link) =>
+    imgList.forEach((link) => {
         link.addEventListener('click', (ev) => {
             ev.preventDefault();
             const lightboxModel = lightboxFactory(images);
             const lightboxDOM = lightboxModel.getLightboxDOM();
-            lightboxModel.getImageDOM(ev.currentTarget.getAttribute('href'));
+            lightboxModel.getImageDOM(ev.currentTarget.getAttribute('src'));
             document.body.appendChild(lightboxDOM);
-            document.querySelector('.lightbox_close').focus();
+            document.body.className = 'no-scroll';
+            Array.from(document.body.children)
+                .filter((el) => el !== lightboxDOM)
+                .forEach((el) => el.setAttribute('inert', 'true'));
+            // main.setAttribute('aria-hidden', 'true');
+            document.querySelector('.lightbox_container>figure').focus();
             trapFocus(lightboxDOM);
-        })
-    );
+        });
+    });
 }
 
 /**
@@ -109,7 +99,9 @@ function displayLightbox() {
  * @returns {Object[]} the sorted media.
  */
 function sortMedia(media) {
-    const selectedValue = document.querySelector('.option-current').textContent;
+    const selectedValue = document.querySelector(
+        '[aria-selected="true"]'
+    ).textContent;
     // selectForm.sort_by[selectForm.sort_by.selectedIndex].value;
     switch (selectedValue) {
         case 'Popularité':
@@ -160,27 +152,15 @@ function displayLikes(data) {
             'click',
             (ev) => {
                 ev.preventDefault();
-                incrementLike(el.previousElementSibling);
+                const productLikes =
+                    ev.target.parentElement.parentElement.firstElementChild;
+                console.log('pl', productLikes);
+                incrementLike(productLikes);
                 incrementLike(likesCount);
             },
             { once: true }
         );
     });
-}
-
-/**
- * If the value of the option is the same as the text content of the option, then add the class
- * 'dropdown-menu_selected-option-hidden' to the option
- * @param el - the element that we want to hide
- */
-function hideSelectedOption(el) {
-    const selectedValue = el.textContent;
-    if (el.value === selectedValue) {
-        el.classList.add('dropdown-menu_selected-option-hidden');
-        // el.className = 'dropdown-menu_selected-option-hidden';
-    } else {
-        el.classList.remove('dropdown-menu_selected-option-hidden');
-    }
 }
 
 /**
@@ -191,32 +171,24 @@ async function displayDropdownMenu(media) {
     const dropdownModel = dropdownFactory();
     const dropdownDOM = dropdownModel.getDropdownDOM();
     main.appendChild(dropdownDOM);
-    // const selected = document.querySelector('.dropdown-menu_filter-selected');
+    const comboInput = document.querySelector('.combo-input');
     const options = document.querySelectorAll('.combo-option');
+    comboInput.addEventListener('keydown', dropdownModel.onKeyDown);
+    comboInput.addEventListener('click', dropdownModel.openDropdown);
+    const observer = new MutationObserver(() => {
+        document.querySelector('.photographer_media').remove();
+        const sortedMedia = sortMedia(media);
+        displayMedia(sortedMedia);
+    });
+    observer.observe(comboInput, {
+        attributes: true,
+        attributeFilter: ['aria-activedescendant'],
+    });
     await displayMedia(sortMedia(media));
-    document
-        .querySelector('#combo1')
-        .addEventListener('click', dropdownModel.openDropdown);
-    // add event listener to each option to sort the media when it is clicked
     options.forEach((option) => {
-        option.addEventListener('click', () => {
-            options.forEach((el) => {
-                el.classList.remove('option-current');
-                el.removeAttribute('aria-selected');
-            });
-            hideSelectedOption(option);
-            const comboInput = document.querySelector('.combo-input');
-            comboInput.textContent = option.textContent;
-            comboInput.setAttribute('aria-selected', 'true');
-            comboInput.setAttribute('aria-label', option.textContent);
-            option.classList.add('option-current');
-            option.setAttribute('aria-selected', 'true');
-            // remove all the media from the DOM
-            document.querySelector('.photographer_media').remove();
-            // display the media that was sorted
-            const sortedMedia = sortMedia(media);
-            displayMedia(sortedMedia);
-        });
+        option.addEventListener('click', (ev) =>
+            dropdownModel.onClick(ev.target)
+        );
     });
 }
 
@@ -224,10 +196,9 @@ async function displayDropdownMenu(media) {
     const { photographers, media } = await getPhotographers();
     const photograph = getPhotograph(photographers);
     await displayPhotographerHeader(photograph);
-    await displayPhotographerModal(photograph);
     await displayDropdownMenu(getMedia(media));
     displayLightbox();
     displayLikes({ photographers, media });
     const contactBtn = document.querySelector('.photographer_contact');
-    contactBtn.addEventListener('click', displayModal);
+    contactBtn.addEventListener('click', () => displayModal(photograph));
 })();

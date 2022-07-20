@@ -4,8 +4,8 @@ form {
   @extend %flex-col-100p;
 
   & > * {
+    //width: 100%;
     font-size: clamp(1rem, 7vw, #{u.rem(36)});
-    width: 100%;
   }
 
   & label {
@@ -17,12 +17,15 @@ form {
     margin-bottom: u.rem(26);
   }
 
-  & input {
+  & input,
+  & textarea {
     width: 100%;
-    height: u.rem(68);
     border: none;
     border-radius: u.$border-radius-xs;
   }
 
+  & input {
+    height: u.rem(68);
+  }
 
 }

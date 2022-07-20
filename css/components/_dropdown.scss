@@ -73,8 +73,15 @@
   padding: 1rem;
   position: relative;
 
+  &:focus,
+  &:focus-visible {
+    background-color: u.$color-secondary;
+    color: u.set-text-color(u.$color-secondary);
+
+  }
+
   &.option-current {
-    display: none;
+    //display: none;
   }
 
   &::after {

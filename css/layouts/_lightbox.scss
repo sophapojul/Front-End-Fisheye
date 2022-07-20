@@ -15,9 +15,9 @@
   &_prev {
     background: url("/assets/icons/arrow.svg") center center / 16px 28px no-repeat;
     width: calc(4vw + 5px);
-    height: 100%;
+    top: 15%;
+    height: 70%;
     position: fixed;
-    top: 0;
     right: 1.5vw;
     margin-top: -14px;
     z-index: 11;
@@ -25,6 +25,7 @@
     &:hover,
     &:focus {
       opacity: 1;
+      background-color: rgba(0, 0, 0, .1);
     }
 
   }
@@ -57,18 +58,33 @@
   }
 
   &_container {
-    @include u.flex-center(row);
-    min-height: 100vh;
-    width: 100vw;
+    @include u.flex-center(column);
+    height: 100vh;
+    width: 94vw;
     margin-left: 3vw;
     margin-right: 3vw;
 
-
-    & img,
-    & video {
+    & figure {
       max-width: 70vw;
-      max-height: 88vh;
+      max-height: 75vh;
       animation: lightboxIn 1s;
+
+      & img,
+      & video {
+        object-fit: contain;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .1);
+      }
+
+      & figcaption {
+        margin-top: u.rem(12);
+        color: u.$color-secondary;
+        font-size: clamp(.75rem, 4vw, #{u.rem(24)});
+        font-weight: 400;
+        word-wrap: break-word;
+
+      }
+
     }
 
   }

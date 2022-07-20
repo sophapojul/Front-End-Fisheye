@@ -1,6 +1,12 @@
+/**
+ * it will trap the focus in the element passed in parameter
+ * @param {HTMLLIElement} el
+ */
 const trapFocus = (el) => {
     const focusableEls = Array.from(
-        el.querySelectorAll('button:not([disabled])')
+        el.querySelectorAll(
+            ' button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
     );
     const firstFocusableEl = focusableEls[0];
     const lastFocusableEl = focusableEls[focusableEls.length - 1];

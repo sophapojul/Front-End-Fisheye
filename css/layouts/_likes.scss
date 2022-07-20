@@ -25,6 +25,11 @@
     border-radius: 5px;
     font-size: u.rem(24);
     font-weight: 500;
+
+    #likes,
+    #likes_price {
+      text-indent: -9999px;
+    }
   }
 
   &_heart {

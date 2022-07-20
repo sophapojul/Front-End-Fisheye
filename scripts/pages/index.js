@@ -3,14 +3,19 @@ import photographerFactory from '../factories/photographer';
 import getPhotographers from '../utils/api';
 
 async function displayData(photographers) {
-    const photographersSection = document.querySelector(
-        '.photographer_section'
-    );
-
+    // const photographersSection = document.querySelector(
+    //     '.photographer_section'
+    // );
+    const main = document.querySelector('main');
+    const ul = document.createElement('ul');
+    ul.className = 'photographer_list';
+    ul.setAttribute('aria-label', 'Liste des Photographes');
+    ul.setAttribute('tabindex', '0');
+    main.appendChild(ul);
     photographers.forEach((photographer) => {
         const photographerModel = photographerFactory(photographer);
         const userCardDOM = photographerModel.getUserCardDOM();
-        photographersSection.appendChild(userCardDOM);
+        ul.appendChild(userCardDOM);
     });
 }
 
