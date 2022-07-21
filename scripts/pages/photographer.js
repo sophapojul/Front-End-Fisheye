@@ -64,6 +64,21 @@ async function displayPhotographerHeader(photographer) {
     main.appendChild(userHeaderCardDOM);
 }
 
+function lightboxOpen(ev, img) {
+    ev.preventDefault();
+    const lightboxModel = lightboxFactory(img);
+    const lightboxDOM = lightboxModel.getLightboxDOM();
+    lightboxModel.getImageDOM(ev.currentTarget.getAttribute('src'));
+    document.body.appendChild(lightboxDOM);
+    document.body.className = 'no-scroll';
+    Array.from(document.body.children)
+        .filter((el) => el !== lightboxDOM)
+        .forEach((el) => el.setAttribute('inert', 'true'));
+    // main.setAttribute('aria-hidden', 'true');
+    document.querySelector('.lightbox_container>figure').focus();
+    trapFocus(lightboxDOM);
+}
+
 /**
  * It takes all the links in the page, gets the unique images from them, and then adds an event listener to each link that
  * creates a lightbox model, gets the lightbox DOM from the model, gets the image DOM from the model, and then appends the
@@ -76,19 +91,11 @@ function displayLightbox() {
         new Set(imgList.map((link) => link.getAttribute('src')))
     );
     imgList.forEach((link) => {
-        link.addEventListener('click', (ev) => {
-            ev.preventDefault();
-            const lightboxModel = lightboxFactory(images);
-            const lightboxDOM = lightboxModel.getLightboxDOM();
-            lightboxModel.getImageDOM(ev.currentTarget.getAttribute('src'));
-            document.body.appendChild(lightboxDOM);
-            document.body.className = 'no-scroll';
-            Array.from(document.body.children)
-                .filter((el) => el !== lightboxDOM)
-                .forEach((el) => el.setAttribute('inert', 'true'));
-            // main.setAttribute('aria-hidden', 'true');
-            document.querySelector('.lightbox_container>figure').focus();
-            trapFocus(lightboxDOM);
+        link.addEventListener('click', (ev) => lightboxOpen(ev, images));
+        link.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter' || ev.key === ' ') {
+                lightboxOpen(ev, images);
+            }
         });
     });
 }
@@ -153,7 +160,6 @@ function displayLikes(data) {
                 ev.preventDefault();
                 const productLikes =
                     ev.target.parentElement.parentElement.firstElementChild;
-                console.log('pl', productLikes);
                 incrementLike(productLikes);
                 incrementLike(likesCount);
             },
