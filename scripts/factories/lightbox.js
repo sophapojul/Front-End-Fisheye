@@ -67,7 +67,9 @@ export default function lightboxFactory(images) {
             e.preventDefault();
             document.body.classList.remove('no-scroll');
             lightbox.remove();
-            document.querySelector('#main').removeAttribute('inert');
+            document.querySelectorAll('[inert]').forEach((element) => {
+                element.removeAttribute('inert');
+            });
             document.removeEventListener('keydown', onKeyDown);
             document.removeEventListener('click', closeLightbox);
             previousElement.focus();
