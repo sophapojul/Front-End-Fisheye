@@ -1,6 +1,6 @@
 import '../../css/style.scss';
 import getPhotographers from '../utils/api';
-import { displayModal, closeModal } from '../utils/modal';
+import { displayModal } from '../utils/modal';
 import photographerFactory from '../factories/photographer';
 import mediaFactory from '../factories/media';
 import {
@@ -209,6 +209,12 @@ async function displayDropdownMenu(media) {
     await displayDropdownMenu(getMedia(media));
     displayLightbox();
     displayLikes({ photographers, media });
+    document.querySelector('header>a').addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter' || ev.key === ' ') {
+            ev.preventDefault();
+            window.location.href = '/';
+        }
+    });
     const contactBtn = document.querySelector('.photographer_contact');
     contactBtn.addEventListener('click', () => displayModal(photograph));
 })();

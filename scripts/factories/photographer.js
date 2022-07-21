@@ -42,8 +42,13 @@ export default function photographerFactory(data) {
         addElement(article, 'p', `${price}€/jour`, {
             class: 'photographer_card-price',
         });
-        const img = article.querySelector('img');
-        img.addEventListener('click', () => openWindow(id));
+        // const img = article.querySelector('img');
+        article.addEventListener('click', () => openWindow(id));
+        article.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter' || ev.key === ' ') {
+                openWindow(id);
+            }
+        });
         return article;
     }
 
