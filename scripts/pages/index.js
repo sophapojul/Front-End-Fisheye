@@ -7,7 +7,7 @@ async function displayData(photographers) {
     const ul = document.createElement('ul');
     ul.className = 'photographer_list';
     ul.setAttribute('aria-label', 'Liste des Photographes');
-    ul.setAttribute('tabindex', '0');
+    // ul.setAttribute('tabindex', '0');
     main.appendChild(ul);
     photographers.forEach((photographer) => {
         const photographerModel = photographerFactory(photographer);

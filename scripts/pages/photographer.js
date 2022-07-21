@@ -85,7 +85,9 @@ function lightboxOpen(ev, img) {
  * lightbox DOM to the body
  */
 function displayLightbox() {
-    const imgList = Array.from(document.querySelectorAll('.product-img'));
+    const imgList = Array.from(
+        document.querySelectorAll('.product>*:not(figcaption)')
+    );
     // get unique images
     const images = Array.from(
         new Set(imgList.map((link) => link.getAttribute('src')))
