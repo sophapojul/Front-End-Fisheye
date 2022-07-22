@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: pages/index.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,45 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: pages/index.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import '../../css/style.scss';
+import photographerFactory from '../factories/photographer';
+import getPhotographers from '../utils/api';
 
+/**
+ * It creates a list of photographers and appends it to the main element
+ * @param {Object[]} photographers - an array of objects containing the data of each photographer
+ */
+async function displayData(photographers) {
+    const main = document.querySelector('main');
+    const ul = document.createElement('ul');
+    ul.className = 'photographer_list';
+    ul.setAttribute('aria-label', 'Liste des Photographes');
+    // ul.setAttribute('tabindex', '0');
+    main.appendChild(ul);
+    photographers.forEach((photographer) => {
+        const photographerModel = photographerFactory(photographer);
+        const userCardDOM = photographerModel.getUserCardDOM();
+        ul.appendChild(userCardDOM);
+    });
+}
 
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+/* It's an IIFE (Immediately Invoked Function Expression) */
+(async function init() {
+    const { photographers } = await getPhotographers();
+    await displayData(photographers);
+})();
+</code></pre>
+        </article>
+    </section>
 
 
 

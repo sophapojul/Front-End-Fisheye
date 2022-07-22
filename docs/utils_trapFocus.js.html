@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: utils/trapFocus.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,51 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: utils/trapFocus.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * it will trap the focus in the element passed in parameter
+ * @param {HTMLLIElement} el
+ */
+const trapFocus = (el) => {
+    const focusableEls = Array.from(
+        el.querySelectorAll(
+            ' button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+    );
+    const firstFocusableEl = focusableEls[0];
+    const lastFocusableEl = focusableEls[focusableEls.length - 1];
 
+    el.addEventListener('keydown', (ev) => {
+        const isTabPressed = ev.key === 'Tab' || ev.code === '9';
+        if (!isTabPressed) {
+            return;
+        }
+        if (ev.shiftKey) {
+            if (document.activeElement === firstFocusableEl) {
+                /* shift + tab */
+                lastFocusableEl.focus();
+                ev.preventDefault();
+            }
+        } else if (document.activeElement === lastFocusableEl) {
+            /* tab */
+            firstFocusableEl.focus();
+            ev.preventDefault();
+        }
+    });
+};
 
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+export default trapFocus;
+</code></pre>
+        </article>
+    </section>
 
 
 

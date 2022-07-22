@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: factories/lightbox.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: factories/lightbox.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import addElement from '../utils/addElement';
+
+/**
+ * It returns an object with two methods, one to create the DOM of the lightbox, and one to create the DOM of the image
+ * @param {String[]} images - an array of image URLs
+ * @returns An object with two methods.
+ */
+export default function lightboxFactory(images) {
+    /**
+     * It takes a link to an image or video, and creates a figure element with an image or video element and a figcaption
+     * element
+     * @param {String} link - the link to the image or video
+     */
+    function getImageDOM(link) {
+        // const alt = link.split('/').pop().split('.')[0].split('_').join(' ');
+        // const alt = link.split('/').pop().split('.')[0].replaceAll(/_/g, ' ');
+        const alt = link.replace(/^.*[\\/]|\.[^.]+$/g, '').replace(/_/g, ' ');
+        const figure = document.querySelector('.lightbox_figure');
+        const extension = link.split('.')[1];
+        figure.innerHTML = '';
+        if (extension === 'mp4') {
+            addElement(figure, 'video', '', {
+                src: link,
+                title: alt,
+                'aria-labelledBy': 'lightbox_title',
+                controls: true,
+                className: 'lightbox_media',
+            });
+        } else {
+            addElement(figure, 'img', '', {
+                class: 'lightbox_media',
+                src: link,
+                alt,
+                'aria-labelledBy': 'lightbox_title',
+            });
+        }
+        addElement(figure, 'figcaption', `${alt}`, {
+            class: 'lightbox_title',
+            id: 'lightbox_title',
+            'aria-hidden': 'true',
+        });
+    }
+
+    /* It creates the DOM of the lightbox. */
+    function getLightboxDOM() {
+        const lightbox = addElement(document.body, 'div', '', {
+            class: 'lightbox',
+            role: 'dialog',
+            'aria-hidden': 'false',
+            'aria-modal': 'true',
+            'aria-labelledBy': 'lightbox_title',
+        });
+        const container = addElement(lightbox, 'div', '', {
+            id: 'lightbox_container',
+            class: 'lightbox_container',
+        });
+        addElement(container, 'figure', '', {
+            class: 'lightbox_figure',
+            tabindex: '0',
+        });
+        addElement(lightbox, 'button', '', {
+            class: 'lightbox_next',
+            role: 'button',
+            'aria-label': 'Va au media suivant',
+        });
+        addElement(lightbox, 'button', '', {
+            class: 'lightbox_close',
+            role: 'button',
+            'aria-label': 'Ferme la fenêtre de dialogue',
+        });
+        addElement(lightbox, 'button', '', {
+            class: 'lightbox_prev',
+            role: 'button',
+            'aria-label': 'Va au media précédent',
+        });
+
+        /**
+         * It removes the no-scroll class from the body, removes the lightbox, removes the inert attribute from all inert
+         * elements, removes the keydown and click event listeners, and focuses on the previous element
+         * @param {PointerEvent} e - The event object
+         * @param {HTMLElement} previousElement - The element that was focused before the lightbox was opened.
+         */
+        function closeLightbox(e, previousElement) {
+            e.preventDefault();
+            document.body.classList.remove('no-scroll');
+            lightbox.remove();
+            document.querySelectorAll('[inert]').forEach((element) => {
+                element.removeAttribute('inert');
+            });
+            document.removeEventListener('keydown', onKeyDown);
+            document.removeEventListener('click', closeLightbox);
+            previousElement.focus();
+        }
+
+        /**
+         * It returns the index of the current image in the array of images.
+         * @param {PointerEvent} e - the event object
+         * @returns {Number} The index of the current image in the array of images.
+         */
+        function currentIndex(e) {
+            e.preventDefault();
+            const currentImg = document.querySelector('#lightbox_container')
+                .firstElementChild.firstElementChild;
+            return images.findIndex(
+                (image) => image === currentImg.getAttribute('src')
+            );
+        }
+
+        /**
+         * The function prevLightbox() takes an event as an argument and then gets the index of the current image. If the
+         * index is 0, then the index is set to the length of the images array. Finally, the function gets the image DOM
+         * element and passes it the image at the index - 1
+         * @param {PointerEvent} e - the event object
+         */
+        function prevLightbox(e) {
+            let index = currentIndex(e);
+            if (index === 0) {
+                index = images.length;
+            }
+            getImageDOM(images[index - 1]);
+        }
+
+        /**
+         * The function nextLightbox() takes an event as an argument and then finds the index of the current image. If the
+         * index is equal to the length of the images array minus one, then the index is set to -1. The function then calls
+         * the getImageDOM() function and passes the next image in the array as an argument
+         * @param {PointerEvent} e - the event object
+         */
+        function nextLightbox(e) {
+            let index = currentIndex(e);
+            if (index === images.length - 1) {
+                index = -1;
+            }
+            getImageDOM(images[index + 1]);
+        }
+
+        /**
+         * If the user presses the escape key, the lightbox is closed. If the user presses the left arrow key, the previous
+         * image is displayed. If the user presses the right arrow key, the next image is displayed
+         * @param {PointerEvent} e - the event object
+         */
+        function onKeyDown(e) {
+            switch (e.key) {
+                case 'Escape':
+                    closeLightbox(e, previousElement);
+                    break;
+                case 'ArrowLeft':
+                    prevLightbox(e);
+                    break;
+                case 'ArrowRight':
+                    nextLightbox(e);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        lightbox.addEventListener('keydown', onKeyDown);
+        const close = lightbox.querySelector('.lightbox_close');
+        const previousElement = document.activeElement;
+        close.addEventListener('click', (e) => {
+            closeLightbox(e, previousElement);
+        });
+        const prev = lightbox.querySelector('.lightbox_prev');
+        prev.addEventListener('click', prevLightbox);
+        const next = lightbox.querySelector('.lightbox_next');
+        next.addEventListener('click', nextLightbox);
+
+        return lightbox;
+    }
+
+    return { getLightboxDOM, getImageDOM };
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#closeModal">closeModal</a></li><li><a href="global.html#closeModalOnEscape">closeModalOnEscape</a></li><li><a href="global.html#displayData">displayData</a></li><li><a href="global.html#displayDropdownMenu">displayDropdownMenu</a></li><li><a href="global.html#displayIncrementLike">displayIncrementLike</a></li><li><a href="global.html#displayLightbox">displayLightbox</a></li><li><a href="global.html#displayLikes">displayLikes</a></li><li><a href="global.html#displayMedia">displayMedia</a></li><li><a href="global.html#displayModal">displayModal</a></li><li><a href="global.html#displayPhotographerHeader">displayPhotographerHeader</a></li><li><a href="global.html#el">el</a></li><li><a href="global.html#getId">getId</a></li><li><a href="global.html#getMedia">getMedia</a></li><li><a href="global.html#getPhotograph">getPhotograph</a></li><li><a href="global.html#getPhotographers">getPhotographers</a></li><li><a href="global.html#handleErrors">handleErrors</a></li><li><a href="global.html#incrementLike">incrementLike</a></li><li><a href="global.html#lightboxOpen">lightboxOpen</a></li><li><a href="global.html#likesFactory">likesFactory</a></li><li><a href="global.html#main">main</a></li><li><a href="global.html#openWindow">openWindow</a></li><li><a href="global.html#sortMedia">sortMedia</a></li><li><a href="global.html#sortMediaByDate">sortMediaByDate</a></li><li><a href="global.html#sortMediaByPopularity">sortMediaByPopularity</a></li><li><a href="global.html#sortMediaByTitle">sortMediaByTitle</a></li><li><a href="global.html#trapFocus">trapFocus</a></li><li><a href="global.html#updateLikesDisplay">updateLikesDisplay</a></li><li><a href="global.html#url">url</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri Jul 22 2022 15:10:14 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: factories/photographer.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: factories/photographer.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import addElement from '../utils/addElement';
+
+/**
+ * It takes an id as a parameter, creates a new URL object with the photographer.html file as the path, appends the id to
+ * the URL as a query string, and then opens the URL in the current window
+ * @param {number} id - The id of the photographer.
+ */
+function openWindow(id) {
+    /** @const {URL} url */
+    const urlPhotograph = new URL('photographer.html', window.location.href);
+    urlPhotograph.search = `?id=${id}`;
+    window.open(urlPhotograph, '_self');
+}
+
+/** @returns {HTMLElement} The DOM element for the photographer object. */
+export default function photographerFactory(data) {
+    const { id, name, portrait, city, country, tagline, price } = data;
+    const picture = `assets/photographers/${portrait}`;
+
+    /** @const {HTMLElement} main */
+    function getUserCardDOM() {
+        const article = document.createElement('article');
+        article.classList.add('photographer_card');
+        article.setAttribute('aria-labelledBy', `${name}`);
+        // article.setAttribute('tabindex', '0');
+        article.setAttribute('role', 'listitem');
+        addElement(article, 'img', '', {
+            class: 'photographer_card-picture',
+            src: picture,
+            alt: `photo représentant ${name}`,
+            tabindex: '0',
+        });
+        addElement(article, 'h2', `${name}`, {
+            class: 'photographer_card-name',
+            id: `${name}`,
+        });
+        addElement(article, 'p', `${city}, ${country}`, {
+            class: 'photographer_card-location',
+        });
+        addElement(article, 'q', `${tagline}`, {
+            class: 'photographer_card-tagline',
+        });
+        addElement(article, 'p', `${price}€/jour`, {
+            class: 'photographer_card-price',
+        });
+        const img = article.querySelector('img');
+        img.addEventListener('click', () => openWindow(id));
+        img.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter' || ev.key === ' ') {
+                openWindow(id);
+            }
+        });
+        return article;
+    }
+
+    /** @returns {HTMLElement} The DOM element for the photographer header */
+    function getUserHeaderDOM() {
+        const header = document.createElement('div');
+        header.classList.add('photographer_header');
+        header.setAttribute('role', 'heading');
+        header.setAttribute('aria-level', '2');
+        const section = addElement(header, 'section', '', {
+            class: 'photographer_details',
+            role: 'presentation',
+            'aria-label': 'Détails du photographe',
+        });
+        addElement(section, 'h1', `${name}`, {
+            class: 'photographer_name',
+            'aria-label': `nom ${name}`,
+        });
+        addElement(section, 'p', `${city}, ${country}`, {
+            class: 'photographer_location',
+            'aria-label': `localisation ${city}, ${country}`,
+        });
+        addElement(section, 'q', `${tagline}`, {
+            class: 'photographer_tagline',
+            'aria-label': `slogan ${tagline}`,
+        });
+        addElement(header, 'button', 'Contactez-moi', {
+            class: 'photographer_contact',
+            type: 'button',
+            role: 'button',
+            'aria-label': 'ouvrir le formulaire de contact',
+        });
+        addElement(header, 'img', '', {
+            class: 'photographer_picture',
+            src: picture,
+            alt: `photo représentant ${name}`,
+        });
+        return header;
+    }
+
+    /** @returns {HTMLElement} The DOM element for the photographer contact form element */
+    function getUserModalDOM() {
+        function setAttributes(element, attributes) {
+            Object.keys(attributes).forEach((attr) => {
+                element.setAttribute(attr, attributes[attr]);
+            });
+        }
+
+        const attributes = {
+            id: 'contact_modal',
+            class: 'contact_modal',
+            role: 'dialog',
+            'aria-hidden': 'false',
+            'aria-modal': 'true',
+            'aria-labelledby': 'contact_modal_title',
+        };
+        const contactModal = document.createElement('div');
+        setAttributes(contactModal, attributes);
+        contactModal.innerHTML = `
+            &lt;div class="modal" role="document">
+                &lt;div class="modal_header" >
+                    &lt;h1 class="modal_title" id="contact_modal_title">Contactez-moi&lt;span>${name}&lt;/span>&lt;/h1>
+                    &lt;button type="button" aria-label="fermer le formulaire de contact" class="modal_close" id="modal_close">
+                        &lt;svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            &lt;path d="M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z" fill="white">&lt;/path>
+                        &lt;/svg>
+                    &lt;/button>
+                &lt;/div>
+                &lt;form id="modal_form" class="modal_form" name="modal_form" action="" method="POST">
+                    &lt;label for="firstname" id="firstname">Prénom&lt;/label>
+                    &lt;input type="text" name="firstname" aria-labelledby="firstname" aria-live="assertive">
+                    &lt;label for="lastname" id="lastname">Nom&lt;/label>
+                    &lt;input type="text" name="lastname" aria-labelledby="lastname" aria-live="assertive">
+                    &lt;label for="email" id="email">Email&lt;/label>
+                    &lt;input type="email" name="email" aria-labelledby="email" aria-live="assertive">
+                    &lt;label for="message" id="message">Votre message&lt;/label>
+                    &lt;textarea name="message" rows="4" aria-labelledby="message" aria-live="assertive">&lt;/textarea>
+                    &lt;button class="modal_submit" type="submit" aria-label="envoyer le formulaire de contact">Envoyer&lt;/button>
+                &lt;/form>
+            &lt;/div>
+        `;
+        return contactModal;
+    }
+
+    return {
+        getUserCardDOM,
+        getUserHeaderDOM,
+        getUserModalDOM,
+    };
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#closeModal">closeModal</a></li><li><a href="global.html#closeModalOnEscape">closeModalOnEscape</a></li><li><a href="global.html#displayData">displayData</a></li><li><a href="global.html#displayDropdownMenu">displayDropdownMenu</a></li><li><a href="global.html#displayIncrementLike">displayIncrementLike</a></li><li><a href="global.html#displayLightbox">displayLightbox</a></li><li><a href="global.html#displayLikes">displayLikes</a></li><li><a href="global.html#displayMedia">displayMedia</a></li><li><a href="global.html#displayModal">displayModal</a></li><li><a href="global.html#displayPhotographerHeader">displayPhotographerHeader</a></li><li><a href="global.html#el">el</a></li><li><a href="global.html#getId">getId</a></li><li><a href="global.html#getMedia">getMedia</a></li><li><a href="global.html#getPhotograph">getPhotograph</a></li><li><a href="global.html#getPhotographers">getPhotographers</a></li><li><a href="global.html#handleErrors">handleErrors</a></li><li><a href="global.html#incrementLike">incrementLike</a></li><li><a href="global.html#lightboxOpen">lightboxOpen</a></li><li><a href="global.html#likesFactory">likesFactory</a></li><li><a href="global.html#main">main</a></li><li><a href="global.html#openWindow">openWindow</a></li><li><a href="global.html#sortMedia">sortMedia</a></li><li><a href="global.html#sortMediaByDate">sortMediaByDate</a></li><li><a href="global.html#sortMediaByPopularity">sortMediaByPopularity</a></li><li><a href="global.html#sortMediaByTitle">sortMediaByTitle</a></li><li><a href="global.html#trapFocus">trapFocus</a></li><li><a href="global.html#updateLikesDisplay">updateLikesDisplay</a></li><li><a href="global.html#url">url</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri Jul 22 2022 15:10:14 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: utils/dropdownSort.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,47 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: utils/dropdownSort.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * It sorts an array of media objects by their title property
+ * @param {Object[]} media - The array of media objects to sort.
+ * @returns {Object[]} An array of objects sorted by title.
+ */
+export function sortMediaByTitle(media) {
+    // return media.sort((a, b) => a.title.localeCompare(b.title));
+    return media.sort(({ title: a }, { title: b }) => a.localeCompare(b));
+}
 
+/**
+ * It sorts an array of media objects by date
+ * @param {Object[]} media - the array of media objects
+ * @returns {Object[]} An array of objects sorted by date.
+ */
+export function sortMediaByDate(media) {
+    // return media.sort((a, b) => new Date(a.date) - new Date(b.date));
+    return media.sort(({ date: a }, { date: b }) => new Date(a) - new Date(b));
+}
 
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+/**
+ * It takes an array of media objects and returns a new array of media objects sorted by the number of likes
+ * @param {Object[]} media - the array of media objects
+ * @returns {Object[]} An array of objects sorted by the number of likes.
+ */
+export function sortMediaByPopularity(media) {
+    // return media.sort((a, b) => b.likes - a.likes);
+    return media.sort(({ likes: a }, { likes: b }) => b - a);
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

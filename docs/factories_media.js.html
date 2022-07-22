@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: factories/media.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: factories/media.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import addElement from '../utils/addElement';
+
+/**
+ * It takes in data, creates a DOM element, and returns the DOM element
+ * @param {Object} data - an object containing the data for the media item
+ * @returns The function getUserMediaDOM is being returned.
+ */
+export default function mediaFactory(data) {
+    const { photographerId, title, image, video, likes } = data;
+    const userImage = `assets/images/${photographerId}/${image}`;
+    const userVideo = `assets/images/${photographerId}/${video}`;
+    const mediaUser = document.querySelector('.photographer_media');
+
+    /**
+     * It creates a DOM element for the user's media
+     * @returns The function getUserMediaDOM is being returned.
+     */
+    function getUserMediaDOM() {
+        const figure = addElement(mediaUser, 'figure', '', {
+            class: 'product',
+        });
+
+        /**
+         * It creates a video element and adds it to the DOM.
+         */
+        function getUserVideo() {
+            const vid = addElement(figure, 'video', '', {
+                class: 'product-video',
+                controls: 'controls',
+                preload: 'metadata',
+                'aria-labelledBy': 'product-title',
+                src: `${userVideo}`,
+                tabindex: '0',
+            });
+            addElement(vid, 'source', '', {
+                src: `${userVideo}#t=0.1`,
+                type: 'video/mp4',
+                controls: 'controls',
+            });
+        }
+
+        /**
+         * This function creates an image element and adds it to the figure element
+         */
+        function getUserImage() {
+            addElement(figure, 'img', '', {
+                class: 'product-img',
+                src: userImage,
+                alt: title,
+                tabindex: '0',
+            });
+        }
+
+        if (video) {
+            getUserVideo();
+        } else {
+            getUserImage();
+        }
+        const figcaption = addElement(figure, 'figcaption', '', {
+            class: 'product-figcaption',
+        });
+        figcaption.innerHTML = `
+        ${title}
+        &lt;span class="product-likes">${likes}&lt;/span>
+        &lt;svg width="19" height="19" viewBox="0 0 19 19" class="product-heart" tabindex="0" aria-label="${likes} likes" fill="none" xmlns="http://www.w3.org/2000/svg">
+            &lt;path d="M9.5 18.35L8.23125 17.03C3.725 12.36 0.75 9.28 0.75 5.5C0.75 2.42 2.8675 0 5.5625 0C7.085 0 8.54625 0.81 9.5 2.09C10.4537 0.81 11.915 0 13.4375 0C16.1325 0 18.25 2.42 18.25 5.5C18.25 9.28 15.275 12.36 10.7688 17.04L9.5 18.35Z" fill="currentcolor"/>
+        &lt;/svg>
+        `;
+        return figure;
+    }
+
+    return { getUserMediaDOM };
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#closeModal">closeModal</a></li><li><a href="global.html#closeModalOnEscape">closeModalOnEscape</a></li><li><a href="global.html#displayData">displayData</a></li><li><a href="global.html#displayDropdownMenu">displayDropdownMenu</a></li><li><a href="global.html#displayIncrementLike">displayIncrementLike</a></li><li><a href="global.html#displayLightbox">displayLightbox</a></li><li><a href="global.html#displayLikes">displayLikes</a></li><li><a href="global.html#displayMedia">displayMedia</a></li><li><a href="global.html#displayModal">displayModal</a></li><li><a href="global.html#displayPhotographerHeader">displayPhotographerHeader</a></li><li><a href="global.html#el">el</a></li><li><a href="global.html#getId">getId</a></li><li><a href="global.html#getMedia">getMedia</a></li><li><a href="global.html#getPhotograph">getPhotograph</a></li><li><a href="global.html#getPhotographers">getPhotographers</a></li><li><a href="global.html#handleErrors">handleErrors</a></li><li><a href="global.html#incrementLike">incrementLike</a></li><li><a href="global.html#lightboxOpen">lightboxOpen</a></li><li><a href="global.html#likesFactory">likesFactory</a></li><li><a href="global.html#main">main</a></li><li><a href="global.html#openWindow">openWindow</a></li><li><a href="global.html#sortMedia">sortMedia</a></li><li><a href="global.html#sortMediaByDate">sortMediaByDate</a></li><li><a href="global.html#sortMediaByPopularity">sortMediaByPopularity</a></li><li><a href="global.html#sortMediaByTitle">sortMediaByTitle</a></li><li><a href="global.html#trapFocus">trapFocus</a></li><li><a href="global.html#updateLikesDisplay">updateLikesDisplay</a></li><li><a href="global.html#url">url</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a> on Fri Jul 22 2022 15:10:14 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
