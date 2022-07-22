@@ -17,8 +17,8 @@ export function closeModal() {
     if (previouslyFocusedElement !== null) previouslyFocusedElement.focus();
     modal.remove();
     document.body.classList.remove('no-scroll');
-    document.body.querySelectorAll('[aria-hidden="true"]').forEach((el) => {
-        el.removeAttribute('aria-hidden');
+    document.body.querySelectorAll('[inert="true"]').forEach((el) => {
+        el.removeAttribute('inert');
     });
     modal.removeEventListener('click', closeModal);
     modal
@@ -54,8 +54,8 @@ export function displayModal(photographer) {
     focusable = Array.from(modal.querySelectorAll(focusableEls));
     previouslyFocusedElement = document.querySelector(':focus');
     document.body.className = 'no-scroll';
-    document.querySelector('main').setAttribute('aria-hidden', 'true');
-    document.querySelector('header').setAttribute('aria-hidden', 'true');
+    document.querySelector('main').setAttribute('inert', 'true');
+    document.querySelector('header').setAttribute('inert', 'true');
     focusable[0].focus();
     modal.addEventListener('click', closeModal);
     modal.querySelector('.modal_close').addEventListener('click', closeModal);
