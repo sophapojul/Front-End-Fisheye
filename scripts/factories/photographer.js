@@ -19,11 +19,8 @@ export default function photographerFactory(data) {
 
     /** @const {HTMLElement} main */
     function getUserCardDOM() {
-        const article = document.createElement('article');
+        const article = document.createElement('li');
         article.classList.add('photographer_card');
-        article.setAttribute('aria-labelledBy', `${name}`);
-        // article.setAttribute('tabindex', '0');
-        article.setAttribute('role', 'listitem');
         const figure = addElement(article, 'figure', '', {
             class: 'photographer_card-figure',
             tabindex: '0',
@@ -37,6 +34,7 @@ export default function photographerFactory(data) {
         addElement(figure, 'h2', `${name}`, {
             class: 'photographer_card-name',
             id: `${name}`,
+            'aria-hidden': 'true',
         });
         addElement(article, 'p', `${city}, ${country}`, {
             class: 'photographer_card-location',
@@ -66,7 +64,7 @@ export default function photographerFactory(data) {
         const section = addElement(header, 'section', '', {
             class: 'photographer_details',
             role: 'presentation',
-            'aria-label': 'Détails du photographe',
+            'aria-haspopup': 'true',
         });
         addElement(section, 'h1', `${name}`, {
             class: 'photographer_name',
@@ -74,11 +72,9 @@ export default function photographerFactory(data) {
         });
         addElement(section, 'p', `${city}, ${country}`, {
             class: 'photographer_location',
-            'aria-label': `localisation ${city}, ${country}`,
         });
         addElement(section, 'q', `${tagline}`, {
             class: 'photographer_tagline',
-            'aria-label': `slogan ${tagline}`,
         });
         addElement(header, 'button', 'Contactez-moi', {
             class: 'photographer_contact',

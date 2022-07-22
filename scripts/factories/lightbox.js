@@ -22,7 +22,6 @@ export default function lightboxFactory(images) {
             addElement(figure, 'video', '', {
                 src: link,
                 title: alt,
-                'aria-labelledBy': 'lightbox_title',
                 controls: true,
                 className: 'lightbox_media',
             });
@@ -31,13 +30,11 @@ export default function lightboxFactory(images) {
                 class: 'lightbox_media',
                 src: link,
                 alt,
-                'aria-labelledBy': 'lightbox_title',
             });
         }
         addElement(figure, 'figcaption', `${alt}`, {
             class: 'lightbox_title',
             id: 'lightbox_title',
-            'aria-hidden': 'true',
         });
     }
 
@@ -57,6 +54,7 @@ export default function lightboxFactory(images) {
         addElement(container, 'figure', '', {
             class: 'lightbox_figure',
             tabindex: '0',
+            id: 'lightbox_figure',
         });
         addElement(lightbox, 'button', '', {
             class: 'lightbox_next',
@@ -118,6 +116,7 @@ export default function lightboxFactory(images) {
                 index = images.length;
             }
             getImageDOM(images[index - 1]);
+            document.querySelector('.lightbox_figure').focus();
         }
 
         /**
@@ -132,6 +131,7 @@ export default function lightboxFactory(images) {
                 index = -1;
             }
             getImageDOM(images[index + 1]);
+            document.querySelector('.lightbox_figure').focus();
         }
 
         /**

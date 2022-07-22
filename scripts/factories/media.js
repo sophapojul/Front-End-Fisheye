@@ -6,7 +6,7 @@ import addElement from '../utils/addElement';
  * @returns The function getUserMediaDOM is being returned.
  */
 export default function mediaFactory(data) {
-    const { photographerId, title, image, video, likes } = data;
+    const { id, photographerId, title, image, video, likes } = data;
     const userImage = `assets/images/${photographerId}/${image}`;
     const userVideo = `assets/images/${photographerId}/${video}`;
     const mediaUser = document.querySelector('.photographer_media');
@@ -28,7 +28,6 @@ export default function mediaFactory(data) {
                 class: 'product-video',
                 controls: 'controls',
                 preload: 'metadata',
-                'aria-labelledBy': 'product-title',
                 src: `${userVideo}`,
                 tabindex: '0',
             });
@@ -58,6 +57,7 @@ export default function mediaFactory(data) {
         }
         const figcaption = addElement(figure, 'figcaption', '', {
             class: 'product-figcaption',
+            id: `${title}`,
         });
         figcaption.innerHTML = `
         ${title}
