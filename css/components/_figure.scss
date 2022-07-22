@@ -1,0 +1,28 @@
+@use "../utils" as u;
+
+.photographer_card-figure {
+  text-align: center;
+  min-width: u.rem(264);
+}
+
+.lightbox_figure {
+  max-width: 70vw;
+  max-height: 75vh;
+  animation: lightboxIn 1s;
+
+  img,
+  video {
+    object-fit: contain;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .1);
+  }
+
+  figcaption {
+    margin-top: u.rem(12);
+    color: u.$color-secondary;
+    font-size: clamp(.75rem, 4vw, #{u.rem(24)});
+    font-weight: 400;
+    word-wrap: break-word;
+
+  }
+}
