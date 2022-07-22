@@ -189,16 +189,21 @@ function displayLikes(data) {
             },
             { once: true }
         );
-        el.addEventListener('keydown', (ev) => {
-            if (ev.key === 'Enter' || ev.key === ' ') {
-                const productLikes = ev.target.parentElement.firstElementChild;
-                displayIncrementLike(ev, productLikes);
-                el.setAttribute(
-                    'aria-label',
-                    `${productLikes.textContent} likes`
-                );
-            }
-        });
+        el.addEventListener(
+            'keydown',
+            (ev) => {
+                if (ev.key === 'Enter' || ev.key === ' ') {
+                    const productLikes =
+                        ev.target.parentElement.firstElementChild;
+                    displayIncrementLike(ev, productLikes);
+                    el.setAttribute(
+                        'aria-label',
+                        `${productLikes.textContent} likes`
+                    );
+                }
+            },
+            { once: true }
+        );
     });
 }
 
