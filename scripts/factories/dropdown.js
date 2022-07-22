@@ -13,7 +13,6 @@ export default function dropdownFactory() {
         const main = document.querySelector('#main');
         const dropdown = addElement(main, 'section', '', {
             class: 'dropdown',
-            role: 'menu',
         });
         dropdown.innerHTML = `
             <label id="combo1-label" class="combo-label">Trier par </label>
@@ -77,7 +76,6 @@ export default function dropdownFactory() {
 
     function onKeyDown(ev) {
         const { key } = ev;
-        console.log(key);
         const comboMenu = document.querySelector('.combo-input');
         const comboOptions = Array.from(
             document.querySelectorAll('.combo-option')
@@ -107,7 +105,10 @@ export default function dropdownFactory() {
                     document
                         .querySelector('.option-current')
                         .classList.remove('option-current');
-                    document.activeElement.setAttribute('aria-selected', 'true');
+                    document.activeElement.setAttribute(
+                        'aria-selected',
+                        'true'
+                    );
                     document.activeElement.classList.add('option-current');
                     comboMenu.innerText = document.activeElement.innerText;
                     comboMenu.setAttribute(

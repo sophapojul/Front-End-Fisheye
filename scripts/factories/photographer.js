@@ -22,12 +22,13 @@ export default function photographerFactory(data) {
         const article = document.createElement('article');
         article.classList.add('photographer_card');
         article.setAttribute('aria-labelledBy', `${name}`);
-        article.setAttribute('tabindex', '0');
+        // article.setAttribute('tabindex', '0');
         article.setAttribute('role', 'listitem');
         addElement(article, 'img', '', {
             class: 'photographer_card-picture',
             src: picture,
             alt: `photo représentant ${name}`,
+            tabindex: '0',
         });
         addElement(article, 'h2', `${name}`, {
             class: 'photographer_card-name',
@@ -42,9 +43,9 @@ export default function photographerFactory(data) {
         addElement(article, 'p', `${price}€/jour`, {
             class: 'photographer_card-price',
         });
-        // const img = article.querySelector('img');
-        article.addEventListener('click', () => openWindow(id));
-        article.addEventListener('keydown', (ev) => {
+        const img = article.querySelector('img');
+        img.addEventListener('click', () => openWindow(id));
+        img.addEventListener('keydown', (ev) => {
             if (ev.key === 'Enter' || ev.key === ' ') {
                 openWindow(id);
             }
@@ -66,17 +67,14 @@ export default function photographerFactory(data) {
         addElement(section, 'h1', `${name}`, {
             class: 'photographer_name',
             'aria-label': `nom ${name}`,
-            tabindex: '0',
         });
         addElement(section, 'p', `${city}, ${country}`, {
             class: 'photographer_location',
             'aria-label': `localisation ${city}, ${country}`,
-            tabindex: '0',
         });
         addElement(section, 'q', `${tagline}`, {
             class: 'photographer_tagline',
             'aria-label': `slogan ${tagline}`,
-            tabindex: '0',
         });
         addElement(header, 'button', 'Contactez-moi', {
             class: 'photographer_contact',
@@ -88,7 +86,6 @@ export default function photographerFactory(data) {
             class: 'photographer_picture',
             src: picture,
             alt: `photo représentant ${name}`,
-            tabindex: '0',
         });
         return header;
     }
