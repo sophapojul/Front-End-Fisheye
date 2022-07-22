@@ -7,7 +7,7 @@ import {
     sortMediaByPopularity,
     sortMediaByTitle,
     sortMediaByDate,
-} from '../utils/dropdownMenu';
+} from '../utils/dropdownSort';
 import lightboxFactory from '../factories/lightbox';
 import dropdownFactory from '../factories/dropdown';
 import { likesFactory, incrementLike } from '../factories/likes';
@@ -64,6 +64,13 @@ async function displayPhotographerHeader(photographer) {
     main.appendChild(userHeaderCardDOM);
 }
 
+/**
+ * It creates a lightbox model, gets the lightbox DOM, gets the image DOM, appends the lightbox DOM to the body, adds a
+ * class to the body to prevent scrolling, adds the inert attribute to all elements except the lightbox DOM, and traps
+ * focus within the lightbox DOM
+ * @param {PointerEvent | KeyboardEvent} ev - the event object
+ * @param {String[]} img - array of images to display in the lightbox
+ */
 function lightboxOpen(ev, img) {
     ev.preventDefault();
     const lightboxModel = lightboxFactory(img);
@@ -134,6 +141,11 @@ const getMedia = (data) => {
     return data.filter((el) => el.photographerId === id);
 };
 
+/**
+ * It takes an event and a number of likes, and then increments the number of likes by one
+ * @param {PointerEvent|KeyboardEvent} ev - the event object
+ * @param {HTMLSpanElement} likes - span element which contains the number of likes the post has
+ */
 function displayIncrementLike(ev, likes) {
     ev.preventDefault();
     const likesCount = document.querySelector('.likes_count');
@@ -142,8 +154,10 @@ function displayIncrementLike(ev, likes) {
 }
 
 /**
- * It takes in a data object, gets the id of the photographer, gets the media of the photographer, adds up the likes of the
- * media, gets the price of the photographer, creates a likes model, gets the likes DOM, and appends it to the main element
+ * It takes in the data from the API, gets the photographer's id, gets the media for that photographer, gets the likes for
+ * each media, gets the price for that photographer, creates a likes model, gets the likes DOM, appends the likes DOM to
+ * the main element, and adds an event listener to each heart icon that increments the likes and sets the aria-label
+ * attribute to the number of likes
  * @param {Object} data - The data object that was passed to the function.
  * @property {Object[]} data.photographers[] - The array of photographers.
  * @property {Number} id - The id of the photographer.
@@ -189,7 +203,7 @@ function displayLikes(data) {
 }
 
 /**
- * It displays a dropdown menu, and when an option is selected, it sorts the media and displays it
+ * It creates a dropdown menu, adds it to the DOM, adds event listeners to the dropdown menu, and then displays the media
  * @param {Object[]} media - an array of objects that contain the media information
  */
 async function displayDropdownMenu(media) {
@@ -220,6 +234,7 @@ async function displayDropdownMenu(media) {
     });
 }
 
+/* An immediately invoked function expression. */
 (async () => {
     const { photographers, media } = await getPhotographers();
     const photograph = getPhotograph(photographers);

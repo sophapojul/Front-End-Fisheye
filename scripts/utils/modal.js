@@ -8,15 +8,10 @@ let focusable = [];
 let previouslyFocusedElement = null;
 
 /**
- *
- * @param {KeyboardEvent} event
+ * It removes the modal from the DOM, restores the focus to the previously focused element, removes the no-scroll class
+ * from the body, removes the event listeners, and sets the modal variable to null
+ * @returns A function that closes the modal.
  */
-const closeModalOnEscape = (e) => {
-    if (e.key === 'Escape') {
-        closeModal(e);
-    }
-};
-
 export function closeModal() {
     if (!modal) return;
     if (previouslyFocusedElement !== null) previouslyFocusedElement.focus();
@@ -33,6 +28,21 @@ export function closeModal() {
     modal = null;
 }
 
+/**
+ *
+ * @param {KeyboardEvent} event
+ */
+const closeModalOnEscape = (e) => {
+    if (e.key === 'Escape') {
+        closeModal(e);
+    }
+};
+
+/**
+ * It creates a modal, adds it to the DOM, adds event listeners to the modal, and then focuses the first focusable element
+ * in the modal
+ * @param {Object[]} photographer - This is the photographer object that is passed to the function.
+ */
 export function displayModal(photographer) {
     const photographerModalModel = photographerFactory(photographer);
     const photographerModalDOM = photographerModalModel.getUserModalDOM();

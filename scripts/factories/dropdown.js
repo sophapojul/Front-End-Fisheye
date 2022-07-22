@@ -43,7 +43,10 @@ export default function dropdownFactory() {
     }
 
     /**
-     * When the user clicks on the combo input, the combo menu is opened and the first option is focused
+     * The function opens the dropdown menu by toggling the class 'open' on the element with the class 'js-select'. It also
+     * adds event listeners to the comboInput and comboMenu elements. If the dropdown is open, the comboInput element's
+     * aria-expanded attribute is set to true and the activeDescendant element is focused. If the dropdown is closed, the
+     * comboInput element's aria-expanded attribute is set to false and the comboInput element is focused
      */
     function openDropdown() {
         const jsSelect = document.querySelector('.js-select');
@@ -63,6 +66,11 @@ export default function dropdownFactory() {
         }
     }
 
+    /**
+     * It removes the `open` class from the `js-select` element, sets the `aria-expanded` attribute of the `combo-input`
+     * element to `false`, focuses the `combo-input` element, and removes the `mouseover` and `keydown` event listeners
+     * from the `combo-menu` element
+     */
     function closeDropdown() {
         const jsSelect = document.querySelector('.js-select');
         const comboInput = document.querySelector('.combo-input');
@@ -74,6 +82,12 @@ export default function dropdownFactory() {
         comboMenu.removeEventListener('keydown', onKeyDown);
     }
 
+    /**
+     * When the user presses the Escape key, the dropdown is closed. When the user presses the Enter or Space key, the
+     * dropdown is opened or closed. When the user presses the ArrowDown key, the next option is focused. When the user
+     * presses the ArrowUp key, the previous option is focused
+     * @param {keyboardEvent} ev - The event object.
+     */
     function onKeyDown(ev) {
         const { key } = ev;
         const comboMenu = document.querySelector('.combo-input');
@@ -160,12 +174,23 @@ export default function dropdownFactory() {
         }
     }
 
+    /**
+     * `onMouseOver` is a function that takes an event as an argument, prevents the default behavior of the event, and then
+     * focuses on the target of the event
+     * @param {MouseEvent} ev - the event object
+     */
     const onMouseOver = (ev) => {
         ev.preventDefault();
         const { target } = ev;
         target.focus();
     };
 
+    /**
+     * When an option is clicked, the selected option is removed from the DOM, the text content of the combo input is set
+     * to the text content of the option that was clicked, the option that was clicked is added to the DOM, the combo input
+     * is set to the id of the option that was clicked, and the dropdown is opened
+     * @param {HTMLElement} option - The option that was clicked.
+     */
     const onClick = (option) => {
         const comboInput = document.querySelector('.combo-input');
         const selected = document.querySelector('.option-current');

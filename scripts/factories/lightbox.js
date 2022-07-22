@@ -1,6 +1,16 @@
 import addElement from '../utils/addElement';
 
+/**
+ * It returns an object with two methods, one to create the DOM of the lightbox, and one to create the DOM of the image
+ * @param {String[]} images - an array of image URLs
+ * @returns An object with two methods.
+ */
 export default function lightboxFactory(images) {
+    /**
+     * It takes a link to an image or video, and creates a figure element with an image or video element and a figcaption
+     * element
+     * @param {String} link - the link to the image or video
+     */
     function getImageDOM(link) {
         // const alt = link.split('/').pop().split('.')[0].split('_').join(' ');
         // const alt = link.split('/').pop().split('.')[0].replaceAll(/_/g, ' ');
@@ -31,6 +41,7 @@ export default function lightboxFactory(images) {
         });
     }
 
+    /* It creates the DOM of the lightbox. */
     function getLightboxDOM() {
         const lightbox = addElement(document.body, 'div', '', {
             class: 'lightbox',
@@ -63,6 +74,12 @@ export default function lightboxFactory(images) {
             'aria-label': 'Va au media précédent',
         });
 
+        /**
+         * It removes the no-scroll class from the body, removes the lightbox, removes the inert attribute from all inert
+         * elements, removes the keydown and click event listeners, and focuses on the previous element
+         * @param {PointerEvent} e - The event object
+         * @param {HTMLElement} previousElement - The element that was focused before the lightbox was opened.
+         */
         function closeLightbox(e, previousElement) {
             e.preventDefault();
             document.body.classList.remove('no-scroll');
@@ -75,6 +92,11 @@ export default function lightboxFactory(images) {
             previousElement.focus();
         }
 
+        /**
+         * It returns the index of the current image in the array of images.
+         * @param {PointerEvent} e - the event object
+         * @returns {Number} The index of the current image in the array of images.
+         */
         function currentIndex(e) {
             e.preventDefault();
             const currentImg = document.querySelector('#lightbox_container')
@@ -84,6 +106,12 @@ export default function lightboxFactory(images) {
             );
         }
 
+        /**
+         * The function prevLightbox() takes an event as an argument and then gets the index of the current image. If the
+         * index is 0, then the index is set to the length of the images array. Finally, the function gets the image DOM
+         * element and passes it the image at the index - 1
+         * @param {PointerEvent} e - the event object
+         */
         function prevLightbox(e) {
             let index = currentIndex(e);
             if (index === 0) {
@@ -92,6 +120,12 @@ export default function lightboxFactory(images) {
             getImageDOM(images[index - 1]);
         }
 
+        /**
+         * The function nextLightbox() takes an event as an argument and then finds the index of the current image. If the
+         * index is equal to the length of the images array minus one, then the index is set to -1. The function then calls
+         * the getImageDOM() function and passes the next image in the array as an argument
+         * @param {PointerEvent} e - the event object
+         */
         function nextLightbox(e) {
             let index = currentIndex(e);
             if (index === images.length - 1) {
@@ -100,6 +134,11 @@ export default function lightboxFactory(images) {
             getImageDOM(images[index + 1]);
         }
 
+        /**
+         * If the user presses the escape key, the lightbox is closed. If the user presses the left arrow key, the previous
+         * image is displayed. If the user presses the right arrow key, the next image is displayed
+         * @param {PointerEvent} e - the event object
+         */
         function onKeyDown(e) {
             switch (e.key) {
                 case 'Escape':

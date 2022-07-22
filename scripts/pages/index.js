@@ -2,6 +2,10 @@ import '../../css/style.scss';
 import photographerFactory from '../factories/photographer';
 import getPhotographers from '../utils/api';
 
+/**
+ * It creates a list of photographers and appends it to the main element
+ * @param {Object[]} photographers - an array of objects containing the data of each photographer
+ */
 async function displayData(photographers) {
     const main = document.querySelector('main');
     const ul = document.createElement('ul');
@@ -16,6 +20,7 @@ async function displayData(photographers) {
     });
 }
 
+/* It's an IIFE (Immediately Invoked Function Expression) */
 (async function init() {
     const { photographers } = await getPhotographers();
     await displayData(photographers);

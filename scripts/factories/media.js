@@ -1,16 +1,28 @@
 import addElement from '../utils/addElement';
 
+/**
+ * It takes in data, creates a DOM element, and returns the DOM element
+ * @param {Object} data - an object containing the data for the media item
+ * @returns The function getUserMediaDOM is being returned.
+ */
 export default function mediaFactory(data) {
     const { photographerId, title, image, video, likes } = data;
     const userImage = `assets/images/${photographerId}/${image}`;
     const userVideo = `assets/images/${photographerId}/${video}`;
     const mediaUser = document.querySelector('.photographer_media');
 
+    /**
+     * It creates a DOM element for the user's media
+     * @returns The function getUserMediaDOM is being returned.
+     */
     function getUserMediaDOM() {
         const figure = addElement(mediaUser, 'figure', '', {
             class: 'product',
         });
 
+        /**
+         * It creates a video element and adds it to the DOM.
+         */
         function getUserVideo() {
             const vid = addElement(figure, 'video', '', {
                 class: 'product-video',
@@ -27,6 +39,9 @@ export default function mediaFactory(data) {
             });
         }
 
+        /**
+         * This function creates an image element and adds it to the figure element
+         */
         function getUserImage() {
             addElement(figure, 'img', '', {
                 class: 'product-img',

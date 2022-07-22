@@ -5,6 +5,10 @@
  * @returns {Object} An object with a function getLikesDOM
  */
 export function likesFactory(likes, price) {
+    /**
+     * It creates a DOM element, adds some classes, sets some attributes, and returns the element
+     * @returns A DOM element
+     */
     function getLikesDOM() {
         const likesDOM = document.createElement('aside');
         likesDOM.classList.add('likes');
