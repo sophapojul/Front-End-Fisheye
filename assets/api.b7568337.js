@@ -1,0 +1,23 @@
+const y=function(){const i=document.createElement("link").relList;if(i&&i.supports&&i.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))l(e);new MutationObserver(e=>{for(const t of e)if(t.type==="childList")for(const c of t.addedNodes)c.tagName==="LINK"&&c.rel==="modulepreload"&&l(c)}).observe(document,{childList:!0,subtree:!0});function a(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerpolicy&&(t.referrerPolicy=e.referrerpolicy),e.crossorigin==="use-credentials"?t.credentials="include":e.crossorigin==="anonymous"?t.credentials="omit":t.credentials="same-origin",t}function l(e){if(e.ep)return;e.ep=!0;const t=a(e);fetch(e.href,t)}};y();function n(r,i,a,l){const e=document.createElement(i);return e.innerHTML=a,l&&Object.keys(l).forEach(t=>{e.setAttribute(t,l[t])}),r.appendChild(e)}function f(r){const i=new URL("photographer.html",window.location.href);i.search=`?id=${r}`,window.open(i,"_self")}function _(r){const{id:i,name:a,portrait:l,city:e,country:t,tagline:c,price:g}=r,p=`assets/photographers/${l}`;function u(){const o=document.createElement("article");o.classList.add("photographer_card"),o.setAttribute("aria-labelledBy",`${a}`),o.setAttribute("role","listitem"),n(o,"img","",{class:"photographer_card-picture",src:p,alt:`photo repr\xE9sentant ${a}`,tabindex:"0"}),n(o,"h2",`${a}`,{class:"photographer_card-name",id:`${a}`}),n(o,"p",`${e}, ${t}`,{class:"photographer_card-location"}),n(o,"q",`${c}`,{class:"photographer_card-tagline"}),n(o,"p",`${g}\u20AC/jour`,{class:"photographer_card-price"});const s=o.querySelector("img");return s.addEventListener("click",()=>f(i)),s.addEventListener("keydown",d=>{(d.key==="Enter"||d.key===" ")&&f(i)}),o}function b(){const o=document.createElement("div");o.classList.add("photographer_header"),o.setAttribute("role","heading"),o.setAttribute("aria-level","2");const s=n(o,"section","",{class:"photographer_details",role:"presentation","aria-label":"D\xE9tails du photographe"});return n(s,"h1",`${a}`,{class:"photographer_name","aria-label":`nom ${a}`}),n(s,"p",`${e}, ${t}`,{class:"photographer_location","aria-label":`localisation ${e}, ${t}`}),n(s,"q",`${c}`,{class:"photographer_tagline","aria-label":`slogan ${c}`}),n(o,"button","Contactez-moi",{class:"photographer_contact",type:"button",role:"button","aria-label":"ouvrir le formulaire de contact"}),n(o,"img","",{class:"photographer_picture",src:p,alt:`photo repr\xE9sentant ${a}`}),o}function w(){function o(x,m){Object.keys(m).forEach(h=>{x.setAttribute(h,m[h])})}const s={id:"contact_modal",class:"contact_modal",role:"dialog","aria-hidden":"false","aria-modal":"true","aria-labelledby":"contact_modal_title"},d=document.createElement("div");return o(d,s),d.innerHTML=`
+            <div class="modal" role="document">
+                <div class="modal_header" >
+                    <h1 class="modal_title" id="contact_modal_title">Contactez-moi<span>${a}</span></h1>
+                    <button type="button" aria-label="fermer le formulaire de contact" class="modal_close" id="modal_close">
+                        <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M42 4.23L37.77 0L21 16.77L4.23 0L0 4.23L16.77 21L0 37.77L4.23 42L21 25.23L37.77 42L42 37.77L25.23 21L42 4.23Z" fill="white"></path>
+                        </svg>
+                    </button>
+                </div>
+                <form id="modal_form" class="modal_form" name="modal_form" action="" method="POST">
+                    <label for="firstname" id="firstname">Pr\xE9nom</label>
+                    <input type="text" name="firstname" aria-labelledby="firstname" aria-live="assertive">
+                    <label for="lastname" id="lastname">Nom</label>
+                    <input type="text" name="lastname" aria-labelledby="lastname" aria-live="assertive">
+                    <label for="email" id="email">Email</label>
+                    <input type="email" name="email" aria-labelledby="email" aria-live="assertive">
+                    <label for="message" id="message">Votre message</label>
+                    <textarea name="message" rows="4" aria-labelledby="message" aria-live="assertive"></textarea>
+                    <button class="modal_submit" type="submit" aria-label="envoyer le formulaire de contact">Envoyer</button>
+                </form>
+            </div>
+        `,d}return{getUserCardDOM:u,getUserHeaderDOM:b,getUserModalDOM:w}}function v(r){if(!r.ok)throw Error(r.statusText);return r}const U=()=>fetch("data/photographers.json").then(v).then(r=>r.json()).catch(r=>console.log(r));export{n as a,U as g,_ as p};
