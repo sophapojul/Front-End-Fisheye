@@ -24,13 +24,17 @@ export default function photographerFactory(data) {
         article.setAttribute('aria-labelledBy', `${name}`);
         // article.setAttribute('tabindex', '0');
         article.setAttribute('role', 'listitem');
-        addElement(article, 'img', '', {
+        const figure = addElement(article, 'figure', '', {
+            class: 'photographer_card-figure',
+            tabindex: '0',
+            role: 'link',
+        });
+        addElement(figure, 'img', '', {
             class: 'photographer_card-picture',
             src: picture,
             alt: `photo représentant ${name}`,
-            tabindex: '0',
         });
-        addElement(article, 'h2', `${name}`, {
+        addElement(figure, 'h2', `${name}`, {
             class: 'photographer_card-name',
             id: `${name}`,
         });
@@ -43,9 +47,9 @@ export default function photographerFactory(data) {
         addElement(article, 'p', `${price}€/jour`, {
             class: 'photographer_card-price',
         });
-        const img = article.querySelector('img');
-        img.addEventListener('click', () => openWindow(id));
-        img.addEventListener('keydown', (ev) => {
+        const link = article.querySelector('figure');
+        link.addEventListener('click', () => openWindow(id));
+        link.addEventListener('keydown', (ev) => {
             if (ev.key === 'Enter' || ev.key === ' ') {
                 openWindow(id);
             }
