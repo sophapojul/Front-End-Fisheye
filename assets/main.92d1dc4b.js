@@ -1,1 +1,0 @@
-import{g as s,p as n}from"./api.320aea19.js";async function p(e){const a=document.querySelector("main"),t=document.createElement("ul");t.className="photographer_list",t.setAttribute("aria-label","Liste des Photographes"),a.appendChild(t),e.forEach(o=>{const r=n(o).getUserCardDOM();t.appendChild(r)})}(async function(){const{photographers:a}=await s();await p(a)})();
