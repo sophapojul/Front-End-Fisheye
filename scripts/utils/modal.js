@@ -17,6 +17,9 @@ export function closeModal() {
     if (previouslyFocusedElement !== null) previouslyFocusedElement.focus();
     modal.remove();
     document.body.classList.remove('no-scroll');
+    document.body.querySelectorAll('[aria-hidden="true"]').forEach((el) => {
+        el.removeAttribute('aria-hidden');
+    });
     modal.removeEventListener('click', closeModal);
     modal
         .querySelector('.modal_close')
