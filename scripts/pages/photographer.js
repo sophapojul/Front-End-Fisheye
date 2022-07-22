@@ -134,6 +134,13 @@ const getMedia = (data) => {
     return data.filter((el) => el.photographerId === id);
 };
 
+function displayIncrementLike(ev, likes) {
+    ev.preventDefault();
+    const likesCount = document.querySelector('.likes_count');
+    incrementLike(likes);
+    incrementLike(likesCount);
+}
+
 /**
  * It takes in a data object, gets the id of the photographer, gets the media of the photographer, adds up the likes of the
  * media, gets the price of the photographer, creates a likes model, gets the likes DOM, and appends it to the main element
@@ -154,19 +161,30 @@ function displayLikes(data) {
     const likesModel = likesFactory(likes, price);
     const likesDOM = likesModel.getLikesDOM();
     main.appendChild(likesDOM);
-    const likesCount = document.querySelector('.likes_count');
     document.querySelectorAll('.product-heart').forEach((el) => {
         el.addEventListener(
             'click',
             (ev) => {
-                ev.preventDefault();
                 const productLikes =
                     ev.target.parentElement.parentElement.firstElementChild;
-                incrementLike(productLikes);
-                incrementLike(likesCount);
+                displayIncrementLike(ev, productLikes);
+                el.setAttribute(
+                    'aria-label',
+                    `${productLikes.textContent} likes`
+                );
             },
             { once: true }
         );
+        el.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter' || ev.key === ' ') {
+                const productLikes = ev.target.parentElement.firstElementChild;
+                displayIncrementLike(ev, productLikes);
+                el.setAttribute(
+                    'aria-label',
+                    `${productLikes.textContent} likes`
+                );
+            }
+        });
     });
 }
 
