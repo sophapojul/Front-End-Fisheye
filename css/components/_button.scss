@@ -30,7 +30,7 @@
   cursor: pointer;
 
   svg {
-    aspect-ratio: 1;
+    aspect-ratio: 1 / 1;
     width: clamp(1.3rem, 6vw, 3rem);
     height: clamp(1.3rem, 6vw, 3rem);
   }
