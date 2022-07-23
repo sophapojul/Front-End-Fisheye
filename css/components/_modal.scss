@@ -2,6 +2,7 @@
 
 .contact_modal {
   position: fixed;
+  @include u.flex-center(column);
   top: 0;
   left: 0;
   width: 100%;
