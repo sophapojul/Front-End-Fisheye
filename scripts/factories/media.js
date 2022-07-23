@@ -6,7 +6,7 @@ import addElement from '../utils/addElement';
  * @returns The function getUserMediaDOM is being returned.
  */
 export default function mediaFactory(data) {
-    const { id, photographerId, title, image, video, likes } = data;
+    const { photographerId, title, image, video, likes } = data;
     const userImage = `assets/images/${photographerId}/${image}`;
     const userVideo = `assets/images/${photographerId}/${video}`;
     const mediaUser = document.querySelector('.photographer_media');
